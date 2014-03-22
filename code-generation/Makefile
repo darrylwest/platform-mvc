@@ -11,7 +11,7 @@ test:
 	@( grunt test jshint )
 
 watch:
-	@( grunt server )
+	@( grunt testAndWatch )
 
 jshint:
 	@( grunt jshint )

@@ -1,7 +1,7 @@
 /**
+ * Gruntfile for MVC platform code generator build
  *
- *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 2014-Mar-22 9:30 AM
  */
 module.exports = function(grunt) {
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('server', [
+    grunt.registerTask('testAndWatch', [
         'mochaTest',
         'jshint',
         'watch'
@@ -79,6 +79,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', [
         'jshint',
-        'mochaTest'
+        'mochaTest',
+        'jsdoc'
     ]);
 };
