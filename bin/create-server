@@ -1,0 +1,11 @@
+#!/bin/sh
+# dpw@alameda.local
+# 2014.03.21
+#
+
+echo 'prompt for the project name: '
+echo 'confirm node project: [y]/n'
+echo 'prompt for database or schema file (if any): '
+echo 'create the standard node server configuration plus any data...'
+echo 'invoke a node process that builds a standard MVC server application...'
+echo 'run the unit tests...'

@@ -1,0 +1,10 @@
+#!/bin/sh
+# dpw@alameda.local
+# 2014.03.21
+#
+
+echo 'prompt for the database or schema: '
+echo 'prompt to create services: [y]/n'
+
+echo 'generate the files including the tests...'
+echo 'run the unit tests...'
