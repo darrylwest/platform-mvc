@@ -1,6 +1,6 @@
 {
   "name": "mvc-code-generation",
-  "version": "00.01.000",
+  "version": "00.90.001",
   "description": "MVC Code Generation Application",
   "main": "app.js",
   "directories": {
@@ -17,6 +17,7 @@
     "async": "~0.2.10",
     "redis": "~0.10.1",
     "mysql": "~2.1.1",
+    "aws-sdk": "~1.2",
     "node-uuid": "~1.4.1",
     "lodash": "~2.4.1",
     "node-commons": "git+ssh://git@bitbucket.org:roundpeg/rp-dev-team-node-commons.git#develop"

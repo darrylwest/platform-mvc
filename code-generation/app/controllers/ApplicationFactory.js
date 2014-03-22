@@ -8,10 +8,19 @@
 var app = '../../app',
     services = app + '/services',
     delegates = app + '/delegates',
+    dao = app + '/dao',
     express = require('express' ),
+    mysql = require( 'mysql' ),
+    redis = require( 'redis' ),
+    aws = require( 'aws-sdk' ),
     AbstractApplicationFactory = require( 'node-commons' ).controllers.AbstractApplicationFactory,
     BootStrap = require( 'node-commons' ).controllers.CommonBootStrap,
+    DataSourceFactory = require( 'node-commons' ).controllers.DataSourceFactory,
+    DataModelCache = require( 'node-commons' ).delegates.DataModelCache,
     Config = require('../../app/controllers/Config' ),
+    ConfigurationWebService = require( services + '/ConfigurationWebService' ),
+    ConfigurationDataService = require( services + '/ConfigurationDataService' ),
+    ConfigurationDao = require( dao + '/ConfigurationDao' ),
     dash = require('lodash');
 
 var ApplicationFactory = function(options) {
@@ -19,14 +28,97 @@ var ApplicationFactory = function(options) {
 
     var factory = this,
         log,
+        dataSourceFactory = options.dataSourceFactory,
+        configurationDataService = options.configurationDataService,
+        configurationDao = options.configurationDao,
         webServiceList = [
             'IndexPageService',
-            'WebStatusService'
+            'WebStatusService',
+            'ConfigurationService'
         ];
 
     AbstractApplicationFactory.extend( this, options );
 
+    /**
+     * Return the service; create it if it doesn't exist
+     *
+     * @returns the configuration web service
+     */
+    this.createConfigurationWebService = function() {
+        var service = factory.findService( ConfigurationWebService.SERVICE_NAME );
+
+        if (!service) {
+            log.info("create configuration web service");
+
+            var opts = {};
+            opts.log = factory.createLogger( ConfigurationWebService.SERVICE_NAME );
+            opts.dataService = factory.createConfigurationDataService();
+
+            service = new ConfigurationWebService( opts );
+        }
+
+        return service;
+    };
+
+    this.createConfigurationDataService = function() {
+        if (!configurationDataService) {
+            log.info("create configuration web service");
+
+            var opts = {};
+            opts.log = factory.createLogger( 'ConfigurationDataService' );
+            opts.dataSourceFactory = factory.createDataSourceFactory();
+            opts.dao = factory.createConfigurationDao();
+
+            configurationDataService = new ConfigurationDataService( opts );
+        }
+
+        return configurationDataService;
+    };
+
+    this.createConfigurationDao = function() {
+        if (!configurationDao) {
+            log.info("create configuration dao and cache");
+
+            var createCache = function() {
+                var opts = {};
+                opts.log = factory.createLogger( 'ConfigurationCache' );
+                opts.capacity = 10;
+
+                return new DataModelCache( opts );
+            };
+
+            var opts = {};
+            opts.log = factory.createLogger( 'ConfigurationDao' );
+            opts.cache = createCache();
+
+            configurationDao = new ConfigurationDao( opts );
+        }
+
+        return configurationDao;
+    };
+
     // TODO create the services: builder, templates
+
+    /**
+     * create the common data source factory; data sources include mysql, redis, S3, etc.
+     */
+    this.createDataSourceFactory = function() {
+        if (!dataSourceFactory) {
+            log.info('create data source factory');
+
+            var opts = dash.clone( options );
+            opts.log = factory.createLogger( 'DataSourceFactory' );
+
+            opts.redis = redis;
+            opts.mysql = mysql;
+            opts.aws = aws;
+            // opts.mailer = mailer;
+
+            dataSourceFactory = new DataSourceFactory( opts );
+        }
+
+        return dataSourceFactory;
+    };
 
     /**
      * create all the web services defined in the web service list.  The service list is a collection/array of

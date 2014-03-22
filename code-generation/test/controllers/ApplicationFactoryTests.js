@@ -23,6 +23,10 @@ describe('ApplicationFactory', function() {
     describe('#instance', function() {
         var factory = new ApplicationFactory( createOptions() ),
             methods = [
+                'createConfigurationWebService',
+                'createConfigurationDataService',
+                'createConfigurationDao',
+                'createDataSourceFactory',
                 'createWebServices',
                 'startWebApplication',
                 // inherited methods
