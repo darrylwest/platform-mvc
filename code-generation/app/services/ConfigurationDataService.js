@@ -19,7 +19,19 @@ var ConfigurationDataService = function(options) {
     AbstractDataService.extend( this, options );
 
     this.query = function(params, responseCallback) {
+        log.info('query the configuration rows');
 
+        service.getPooledConnection(function(err, connection) {
+            if (err) return responseCallback( err, null );
+
+            var closeConnection = function(err, model) {
+                connection.release();
+
+                responseCallback(err, model);
+            };
+
+            dao.list( connection, closeConnection);
+        });
     };
 
     /**

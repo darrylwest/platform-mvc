@@ -27,7 +27,7 @@ var ConfigurationWebService = function(options) {
         log.info('query for a list of configurations');
 
         var responseCallback = function(err, list) {
-            var payload = service.createListPayload( err, 'bookmarks', list );
+            var payload = service.createListPayload( err, 'configurations', list );
 
             log.debug( "payload: ", payload );
 

@@ -5,6 +5,7 @@
  * @created: 3/22/14 11:42 AM
  */
 var should = require('chai').should(),
+    dash = require('lodash' ),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     MockExpress = require('node-commons').mocks.MockExpress,
     DataSourceFactory = require('node-commons' ).controllers.DataSourceFactory,
@@ -35,11 +36,28 @@ describe( 'ConfigurationWebService', function() {
     };
 
     describe( '#instance', function() {
+        var service = createWebService(),
+            methods = [
+                'query',
+                'save',
+                'find',
+                // inherited
+                'createFailedResponse',
+                'createListPayload',
+                'createModelPayload',
+                'createSuccessResponse',
+                'findIPAddress'
+            ];
+
         it("should be and instance of ConfigurationWebService", function() {
-            var service = createWebService();
             should.exist( service );
 
             service.find.should.be.a( 'function' );
+        });
+
+        it('should have all known methods by size', function() {
+            // console.log( dash.methods( service ));
+            dash.methods( service ).length.should.equal( methods.length );
         });
 
         it("should have the correct service identifier name", function() {
