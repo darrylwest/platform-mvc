@@ -1,7 +1,8 @@
 /**
+ * @class ConfigurationDaoTests
+ * @classdef test configurations for various environments
  *
- *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 3/22/14 12:09 PM
  */
 var should = require('chai').should(),

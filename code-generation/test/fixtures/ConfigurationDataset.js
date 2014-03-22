@@ -1,5 +1,6 @@
 /**
- *
+ * @class ConfigurationDataset
+ * @classdesc dataset to support configuration tests
  *
  * @author: darryl.west@roundpeg.com
  * @created: 3/22/14 11:56 AM

@@ -16,6 +16,9 @@ watch:
 jshint:
 	@( grunt jshint )
 
+docs:
+	@( grunt jsdoc )
+
 version:
 	@( cd app ; node app --version )
 
@@ -23,4 +26,5 @@ version:
 .PHONY:	npm
 .PHONY:	watch
 .PHONY:	test
+.PHONY:	docs
 .PHONY:	version

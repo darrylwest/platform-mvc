@@ -1,13 +1,18 @@
 /**
- * ConfigurationDataService - query, save, find data services to support web API
+ * @class ConfigurationDataService
+ * @classdesc query, save, find data services to support web API
  *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 3/22/14 11:54 AM
  */
 var serviceName = 'ConfigurationDataService',
     Configuration = require('../models/Configuration'),
     AbstractDataService = require('node-commons' ).services.AbstractDataService;
 
+/**
+ * @param options - must supply a log, dao, and dataSourceFactory
+ * @constructor
+ */
 var ConfigurationDataService = function(options) {
     "use strict";
 
@@ -18,6 +23,12 @@ var ConfigurationDataService = function(options) {
 
     AbstractDataService.extend( this, options );
 
+    /**
+     * @desc query all configuration records
+     *
+     * @param params
+     * @param responseCallback
+     */
     this.query = function(params, responseCallback) {
         log.info('query the configuration rows');
 
@@ -35,7 +46,7 @@ var ConfigurationDataService = function(options) {
     };
 
     /**
-     * save the configuration object.  this will update or insert based on the configuration id.  if the configuration
+     * @desc save the configuration object.  this will update or insert based on the configuration id.  if the configuration
      * is found for the given id, the an update is done.  else, it's an insert.  The updated/inserted configuration
      * model is then returned.
      *
@@ -103,7 +114,7 @@ var ConfigurationDataService = function(options) {
     };
 
     /**
-     * find the configuration set for the given id, usually development, staging or production
+     * @desc find the configuration set for the given id, usually development, staging or production
      * @param params
      * @param responseCallback
      */
@@ -124,6 +135,7 @@ var ConfigurationDataService = function(options) {
 
     };
 
+    // constructor validations
     if (!log) throw new Error("data service must be constructed with a log");
     if (!dao) throw new Error("data service must be constructed with a dao");
     if (!dataSourceFactory) throw new Error("data service must be constructed with a dataSourceFactory");

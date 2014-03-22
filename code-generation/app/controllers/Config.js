@@ -1,13 +1,18 @@
 /**
- * Config - start up configurations
+ * @class Config
+ * @classdesc start up configurations for various environments
  *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 3/22/14 8:19 AM
  */
 var VERSION = '00.90.001-18101';
 
 var externalConfig;
 
+/**
+ * @param options
+ * @constructor
+ */
 var Config = function(options) {
     "use strict";
 

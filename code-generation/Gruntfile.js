@@ -53,6 +53,17 @@ module.exports = function(grunt) {
                     '<%= dirs.test %>/*/*.js'
                 ]
             }
+        },
+        jsdoc: {
+            dist:{
+                src:[
+                    '<%= dirs.app %>/*/*.js',
+                    '<%= dirs.test %>/*/*.js'
+                ],
+                options:{
+                    destination:'jsdoc'
+                }
+            }
         }
     });
 

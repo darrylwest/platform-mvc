@@ -1,7 +1,8 @@
 /**
- * Configuration - data model to contain a configuration setting
+ * @class Configuration
+ * @classdesc data model to contain a configuration setting
  *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 3/22/14 11:57 AM
  */
 var AbstractBaseModel = require("node-commons" ).models.AbstractBaseModel;

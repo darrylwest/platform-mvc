@@ -1,7 +1,7 @@
 /**
- * ConfigurationDataServiceTests
+ * @class ConfigurationDataServiceTests
  *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 3/22/14 11:55 AM
  */
 var should = require('chai').should(),

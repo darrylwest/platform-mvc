@@ -1,7 +1,8 @@
 /**
+ * @class ConfigurationWebServiceTests
+ * @classdesc configuration tests for web services API
  *
- *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 3/22/14 11:42 AM
  */
 var should = require('chai').should(),

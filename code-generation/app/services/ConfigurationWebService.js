@@ -1,13 +1,18 @@
 /**
- * ConfigurationWebService - standard API for find, query, and save of configurations
+ * @class ConfigurationWebService
+ * @classdesc standard API for find, query, and save of configurations
  *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 3/22/14 11:40 AM
  */
 var serviceName = 'ConfigurationWebService',
     ServiceRoute = require('node-commons' ).models.ServiceRoute,
     AbstractWebService = require('node-commons' ).services.AbstractWebService;
 
+/**
+ * @param options - options must supply a log and data service
+ * @constructor
+ */
 var ConfigurationWebService = function(options) {
     "use strict";
 
@@ -18,7 +23,7 @@ var ConfigurationWebService = function(options) {
     AbstractWebService.extend( this, options );
 
     /**
-     * query the list of configurations
+     * @desc query the list of configurations
      *
      * @param request
      * @param response
@@ -43,7 +48,7 @@ var ConfigurationWebService = function(options) {
     };
 
     /**
-     * save the configuration
+     * @desc save the configuration
      *
      * @param request
      * @param response
@@ -69,7 +74,7 @@ var ConfigurationWebService = function(options) {
     };
 
     /**
-     * Find the configuration for the given id; the id may be one of the following: development, staging, production
+     * @desc Find the configuration for the given id; the id may be one of the following: development, staging, production
      *
      * @param request - the configuration id - development, staging, production
      * @param response - the configuration model
@@ -111,6 +116,10 @@ var ConfigurationWebService = function(options) {
         ServiceRoute.create( 'get', '/configuration/find/:id', service.find ),
         ServiceRoute.create( 'get', '/configuration/find', service.find )
     ];
+
+    // constructor validations
+    if (!log) throw new Error("web service must be constructed with a log");
+    if (!dataService) throw new Error("web service must be constructed with a data service");
 };
 
 ConfigurationWebService.SERVICE_NAME = serviceName;

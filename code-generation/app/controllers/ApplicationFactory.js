@@ -1,7 +1,8 @@
 /**
- * ApplicationFactory - builds, or delegates building of all application components
+ * @class ApplicationFactory
+ * @classdesc builds, or delegates building of all application components
  *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 3/22/14 7:06 AM
  */
 
@@ -23,6 +24,10 @@ var app = '../../app',
     ConfigurationDao = require( dao + '/ConfigurationDao' ),
     dash = require('lodash');
 
+/**
+ * @param options - can be an empty object, but usually it contains a Config object
+ * @constructor
+ */
 var ApplicationFactory = function(options) {
     'use strict';
 
@@ -40,9 +45,9 @@ var ApplicationFactory = function(options) {
     AbstractApplicationFactory.extend( this, options );
 
     /**
-     * Return the service; create it if it doesn't exist
+     * @desc Return the service; create it if it doesn't exist
      *
-     * @returns the configuration web service
+     * @returns the singleton configuration web service
      */
     this.createConfigurationWebService = function() {
         var service = factory.findService( ConfigurationWebService.SERVICE_NAME );
@@ -60,6 +65,11 @@ var ApplicationFactory = function(options) {
         return service;
     };
 
+    /**
+     * Return the service; create it if it doesn't exist
+     *
+     * @returns the singleton configuration data service object
+     */
     this.createConfigurationDataService = function() {
         if (!configurationDataService) {
             log.info("create configuration web service");
@@ -75,6 +85,11 @@ var ApplicationFactory = function(options) {
         return configurationDataService;
     };
 
+    /**
+     * @desc Return the dao; create it if it doesn't exist
+     *
+     * @returns the singleton dao
+     */
     this.createConfigurationDao = function() {
         if (!configurationDao) {
             log.info("create configuration dao and cache");
@@ -100,7 +115,7 @@ var ApplicationFactory = function(options) {
     // TODO create the services: builder, templates
 
     /**
-     * create the common data source factory; data sources include mysql, redis, S3, etc.
+     * @desc create the common data source factory; data sources include mysql, redis, S3, etc.
      */
     this.createDataSourceFactory = function() {
         if (!dataSourceFactory) {
@@ -121,7 +136,7 @@ var ApplicationFactory = function(options) {
     };
 
     /**
-     * create all the web services defined in the web service list.  The service list is a collection/array of
+     * @desc create all the web services defined in the web service list.  The service list is a collection/array of
      * strings that identify the service.  The name is combined with the word 'create' to create a closure
      * that creates the service.
      *
