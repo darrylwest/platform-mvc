@@ -4,6 +4,7 @@
 
 PORT=14060
 ENV=production
+SERVICE=CodeGenerationService
 
 # config?
 
@@ -14,5 +15,5 @@ ENV=production
 
 sleep 2
 
-curl http://localhost:14050/CodeGenerationService/status
+curl http://localhost:$PORT/$SERVICE/status
 
