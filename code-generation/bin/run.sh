@@ -5,7 +5,7 @@
 
 PORT=14060
 ENV=development
-CONFIG=config.json
+CONFIG="`pwd`/config.json"
 
 cd app/
 

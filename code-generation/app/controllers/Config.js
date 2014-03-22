@@ -6,12 +6,20 @@
  */
 var VERSION = '00.90.001-18101';
 
+var externalConfig;
+
 var Config = function(options) {
     "use strict";
 
     if (!options) options = {};
 
     this.version = VERSION;
+
+    if (options.configfile) {
+        externalConfig = require( options.configfile );
+    } else {
+        externalConfig = require( '../../config.json' );
+    }
 
     // set the command line arg/defaults
     this.environment = options.env;
@@ -31,8 +39,8 @@ var Config = function(options) {
     this.port = 14060;
 
     // db and aws keys, if supplied
-    this.keys = options.keys;
-    this.database = options.database;
+    this.keys = externalConfig.keys;
+    this.database = externalConfig.database;
 
     if (process.env.HOME) {
         this.reportsFilePath = process.env.HOME + '/reports';
@@ -64,7 +72,7 @@ Config.test = function(opts) {
     // log settings dumb'd down for tests
     config.consoleLogLevel = 'error';
     config.fileLogLevel = 'info';
-    config.filename = '/tmp/ama-debug.log';
+    config.filename = '/tmp/mvc-debug.log';
 
     return config;
 };
