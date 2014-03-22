@@ -4,7 +4,7 @@
 *A standard MVC platform for client and server implementations written in various languages...*
 - - -
 ## Overview
-The objective of this project is to define a platform for development server and client applications using the widely accepted Model View Controller pattern.  The platform is language independent and was originally developed in Java, then in groovy and now, javascript for both client/browser and node/server applications.
+The objective of this project is to define a platform for development server and client applications using Model View Controller.  The platform is language independent and was originally developed in Java, then in groovy and now, javascript for both client/browser and node/server applications.
 
 ## Implementation
 ### Application Folder Structure
@@ -26,6 +26,10 @@ MVC applications are a collection of source files that implement specific logic 
 Each project may optionally contain a configuration folder, usually named 'config'.  Configurations stored in the config folder enables easy configuration across multiple customer installations. 
 #### Test
 Each project has a full set of unit tests.  Most projects have a folder called 'test' that contain data fixtures, mochs, and tests.  For client/browsers this folder is called 'mocha' and include the mocha/chai test libraries.
+
+## Code Generation
+To facilitate quick startup, code generators have been created for client and server applications.  Generation is configuration driven through simple prompts (ala yoeman) and through a stand-alone UI interface.  Scripts are written in javascript and have the capability to interigate database schemas to aid in generation.
+
 
 - - -
 <small>*darryl west, march, 2014*</small>
