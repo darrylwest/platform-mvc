@@ -1,10 +1,19 @@
 #Platform-MVC
 
 
-*A standard MVC platform for client and server implementations written in various languages...*
+*A standard MVC platform generation service for client and server implementations targeting various languages...*
 - - -
 ## Overview
-The objective of this project is to define a platform for development server and client applications using Model View Controller.  The platform is language independent and was originally developed in Java, then in groovy and now, javascript for both client/browser and node/server applications.
+The objective of this project is to define code generation tools that create Model View Controller projects for client or server independent of language.  Standard MVC platforms have evolved from Java, Ruby, groovy with embedded jetty, and javascript for both client/browser and node/server applications.
+
+The service is intended to run on a remote machine and accept requests for project generation with a supplied configuration.  Project generation is completed and returned to the requestor as a tar or zip distribution.
+
+## Code Generation
+### Configuration Dialogs
+#### Node Service
+#### Browser Application
+#### Service Domain
+### Generated Distribution 
 
 ## Implementation
 ### Application Folder Structure
@@ -28,11 +37,11 @@ Each project may optionally contain a configuration folder, usually named 'confi
 Each project has a full set of unit tests.  Most projects have a folder called 'test' that contain data fixtures, mochs, and tests.  For client/browsers this folder is called 'mocha' and include the mocha/chai test libraries.
 
 ## Code Generation
-To facilitate quick startup, code generators have been created for client and server applications.  Generation is configuration driven through simple prompts (ala yoeman) and through a stand-alone UI interface.  Scripts are written in javascript and have the capability to interigate database schemas to aid in generation.
+A simple client application is used to initiate code generation for the specified configuration.
 
 
 - - -
-<small>*darryl west, march, 2014*</small>
+<small>*darryl west, Rain City Software, march, 2014*</small>
 
 
 

@@ -1,5 +1,5 @@
 MVC Code Generation
 - - - 
 
-Template based code generation for MVC client and server projects.
+Template & configuration based code generation service for MVC platform projects.
 

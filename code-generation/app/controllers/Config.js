@@ -24,7 +24,7 @@ var Config = function(options) {
     this.logfile = options.logfile;
 
     this.apptitle = 'MVC Code Generation';
-    this.copyright = 'raincitysoftware, 2014';
+    this.copyright = 'Rain City Software, 2014';
 
     this.baseURI = '/CodeGenerationService';
 
