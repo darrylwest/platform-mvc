@@ -2,7 +2,7 @@
   "name": "mvc-code-generation",
   "version": "00.01.000",
   "description": "MVC Code Generation Application",
-  "main": "app/app.js",
+  "main": "app.js",
   "directories": {
     "test": "test"
   },
@@ -18,7 +18,8 @@
     "redis": "~0.10.1",
     "mysql": "~2.1.1",
     "node-uuid": "~1.4.1",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "node-commons": "git+ssh://git@bitbucket.org:roundpeg/rp-dev-team-node-commons.git#develop"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
@@ -27,6 +28,7 @@
     "grunt-contrib-jshint": "~0.9.2",
     "grunt-contrib-clean": "~0.5.0",
     "jshint-stylish": "~0.1.5",
+    "load-grunt-tasks": "~0.1.0",
     "grunt-mocha-test": "~0.10.0",
     "mocha": "~1.18.2",
     "chai": "~1.9.1",
