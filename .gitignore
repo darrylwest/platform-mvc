@@ -1,0 +1,15 @@
+__MAC*
+.DS_Store
+*.class
+*.war
+*.tz
+*.gz
+dist
+build
+.idea
+.settings
+.gradle
+*.bak
+*.log
+*.swp
+node_modules

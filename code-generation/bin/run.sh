@@ -5,8 +5,9 @@
 
 PORT=14060
 ENV=development
+CONFIG=config.json
 
 cd app/
 
-node app.js --env $ENV --logfile ~/logs/mvc-code-generator.log
+node app.js --env $ENV --configfile $CONFIG --logfile ~/logs/mvc-code-generator.log
 

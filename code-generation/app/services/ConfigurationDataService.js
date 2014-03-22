@@ -19,7 +19,7 @@ var ConfigurationDataService = function(options) {
     AbstractDataService.extend( this, options );
 
     this.query = function(params, responseCallback) {
-        
+
     };
 
     /**

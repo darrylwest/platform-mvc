@@ -5,12 +5,13 @@
 PORT=14060
 ENV=production
 SERVICE=CodeGenerationService
+CONFIG=config.json
 
 # config?
 
 (
     cd app/
-    nohup node app.js --env $ENV --logfile ~/logs/mvc-code-generator.log > ../code-gen-nohup.log &
+    nohup node app.js --env $ENV --configfile $CONFIG --logfile ~/logs/mvc-code-generator.log > ../code-gen-nohup.log &
 )
 
 sleep 2

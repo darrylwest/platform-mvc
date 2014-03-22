@@ -9,10 +9,15 @@ The objective of this project is to define code generation tools that create Mod
 The service is intended to run on a remote machine and accept requests for project generation with a supplied configuration.  Project generation is completed and returned to the requestor as a tar or zip distribution.
 
 ## Code Generation
-### Configuration Dialogs
-#### Node Service
-#### Browser Application
-#### Service Domain
+
+### Node Services
+The node service generator creates a standard JSON request/response service that is intended to pair up to a client application.  Node service do not create any HTML--only JSON.  
+### Browser Applications
+MVC client/browser applications are single page HTML5 applications that can run from any web container.  Client applications follow the standard MVC package layout and contain many class files.  This is the standard development configuration.  
+
+For production, the class files compile to a single application.js file that can be cached and run off-line.  An application.css file is also created for production.
+
+### Service Domains
 ### Generated Distribution 
 
 ## Implementation
