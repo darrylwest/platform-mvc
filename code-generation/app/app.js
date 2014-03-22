@@ -9,5 +9,4 @@ var applicationFactory = require('./controllers/ApplicationFactory' ).createInst
     express = require('express' ),
     app = express();
 
-console.log('start the service...');
-// applicationFactory.startWebApplication( app );
+applicationFactory.startWebApplication( app );
