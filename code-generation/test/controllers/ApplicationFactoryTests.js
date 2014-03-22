@@ -4,7 +4,8 @@
  * @author: darryl.west@roundpeg.com
  * @created: 3/22/14 7:07 AM
  */
-var should = require('chai').should();
+var should = require('chai').should(),
+    ApplicationFactory = require('../../app/controllers/ApplicationFactory' );
 
 describe('ApplicationFactory', function() {
     'use strict';
@@ -18,8 +19,12 @@ describe('ApplicationFactory', function() {
     };
 
     describe('#instance', function() {
-        it('should create an instance of ApplicationFactory', function() {
+        var factory = new ApplicationFactory( createOptions() );
 
+        it('should create an instance of ApplicationFactory', function() {
+            should.exist( factory );
+
+            factory.should.be.instanceof( ApplicationFactory );
         });
     });
 });

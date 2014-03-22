@@ -20,3 +20,5 @@ var ApplicationFactory = function(options) {
 
 
 };
+
+module.exports = ApplicationFactory;
