@@ -1,8 +1,7 @@
 #Platform-MVC
 
-
-*A multi-language MVC platform generation service...*
-<hr/>
+*A multi-language Model-View-Controller platform generation service...*
+- - -
 ## Overview
 The objective of this project is to define code generation tools that create Model View Controller projects for client or server independent of language.  Standard MVC platforms have evolved from Java, Ruby, groovy with embedded jetty, and javascript for both client/browser and node/server applications.
 
