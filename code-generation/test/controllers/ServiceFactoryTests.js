@@ -9,7 +9,10 @@ var should = require('chai').should(),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
     Config = require('../../app/controllers/Config' ),
-    ServiceFactory = require('../../app/controllers/ServiceFactory' );
+    ServiceFactory = require('../../app/controllers/ServiceFactory' ),
+    ConfigurationWebService = require( '../../app/services/ConfigurationWebService' ),
+    ConfigurationDataService = require( '../../app/services/ConfigurationDataService' ),
+    ConfigurationDao = require( '../../app/dao/ConfigurationDao' );
 
 describe('ServiceFactory', function() {
     'use strict';
@@ -47,8 +50,28 @@ describe('ServiceFactory', function() {
     });
 
     describe('#Configuration', function() {
-        it('should create configuration dao');
-        it('should create configuration data service');
-        it('should create configuration web service');
+        it('should create configuration dao', function() {
+            var serviceFactory = new ServiceFactory( createOptions() ),
+                dao = serviceFactory.createConfigurationDao();
+
+            should.exist( dao );
+            dao.should.be.instanceof( ConfigurationDao );
+        });
+
+        it('should create configuration data service', function() {
+            var serviceFactory = new ServiceFactory( createOptions() ),
+                dataService = serviceFactory.createConfigurationDataService();
+
+            should.exist( dataService );
+            dataService.should.be.instanceof( ConfigurationDataService );
+        });
+
+        it('should create configuration web service', function() {
+            var serviceFactory = new ServiceFactory( createOptions() ),
+                webService = serviceFactory.createConfigurationWebService();
+
+            should.exist( webService );
+            webService.should.be.instanceof( ConfigurationWebService );
+        });
     });
 });

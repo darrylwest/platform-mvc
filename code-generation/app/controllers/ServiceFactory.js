@@ -92,7 +92,6 @@ var ServiceFactory = function(options) {
         return configurationDao;
     };
 
-
     // constructor validations
     if (!log) throw new Error('service factory must be constructed with a log');
     if (!logManager) throw new Error('service factory must be constructed with a log manager');

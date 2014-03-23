@@ -9,7 +9,8 @@ var should = require('chai').should(),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
     Config = require('../../app/controllers/Config' ),
-    ApplicationFactory = require('../../app/controllers/ApplicationFactory' );
+    ApplicationFactory = require('../../app/controllers/ApplicationFactory' ),
+    ServiceFactory = require('../../app/controllers/ServiceFactory' );
 
 describe('ApplicationFactory', function() {
     'use strict';
@@ -74,7 +75,18 @@ describe('ApplicationFactory', function() {
     });
 
     describe('createServiceFactory', function() {
-        // opts.dataSourceFactory = new MockDataSourceFactory();
-        it('should create a service factory');
+
+        it('should create a service factory', function() {
+            var factory,
+                serviceFactory,
+                opts = createOptions();
+
+            opts.dataSourceFactory = new MockDataSourceFactory();
+            factory = new ApplicationFactory( opts );
+
+            serviceFactory = factory.createServiceFactory();
+            should.exist( serviceFactory );
+            serviceFactory.should.be.instanceof( ServiceFactory );
+        });
     });
 });
