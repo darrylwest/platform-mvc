@@ -55,7 +55,7 @@ var ConfigurationWebService = function(options) {
      */
     this.save = function(request, response) {
         log.info("save request from ip: ", request.ip, ", ip list: ", request.ips);
-        log.info("save the configuration: body: ", request.query);
+        log.info("save the configuration: body: ", request.body);
 
         var responseCallback = function(err, model) {
             var payload = service.createModelPayload( err, 'configuration', model );

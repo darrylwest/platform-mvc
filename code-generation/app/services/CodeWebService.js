@@ -22,7 +22,9 @@ var CodeWebService = function(options) {
     AbstractWebService.extend( this, options );
 
     this.create = function(request, response) {
-        log.info('create: generate code from params');
+        var params = request.body;
+
+        log.info('create: generate code from params: ', params);
 
         var responseCallback = function(err, list) {
             var payload = service.createListPayload( err, 'configurations', list );
@@ -33,7 +35,7 @@ var CodeWebService = function(options) {
         };
 
         try {
-            dataService.create( request.query, responseCallback );
+            dataService.create( params, responseCallback );
         } catch(err) {
             log.error('create error: ', err);
             responseCallback( err, null );
@@ -42,7 +44,7 @@ var CodeWebService = function(options) {
 
     this.serviceName = options.serviceName || serviceName;
     this.routes = [
-        ServiceRoute.create( 'get', '/code/create', service.create )
+        ServiceRoute.create( 'post', '/code/create', service.create )
     ];
 
     // constructor validations

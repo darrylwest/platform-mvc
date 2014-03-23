@@ -33,6 +33,8 @@ describe('ServiceFactory', function() {
     describe('#instance', function() {
         var factory = new ServiceFactory( createOptions() ),
             methods = [
+                'createCodeWebService',
+                'createCodeDataService',
                 'createConfigurationWebService',
                 'createConfigurationDataService',
                 'createConfigurationDao'

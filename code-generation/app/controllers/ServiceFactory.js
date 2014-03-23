@@ -12,6 +12,8 @@ var services = '../../app/services',
     ConfigurationWebService = require( services + '/ConfigurationWebService' ),
     ConfigurationDataService = require( services + '/ConfigurationDataService' ),
     ConfigurationDao = require( dao + '/ConfigurationDao' ),
+    CodeWebService = require( services + '/CodeWebService' ),
+    CodeDataService = require( services + '/CodeDataService' ),
     dash = require('lodash');
 
 /**
@@ -26,7 +28,36 @@ var ServiceFactory = function(options) {
         logManager = options.logManager,
         dataSourceFactory = options.dataSourceFactory,
         configurationDataService = options.configurationDataService,
-        configurationDao = options.configurationDao;
+        configurationDao = options.configurationDao,
+        codeDataService = options.codeDataService;
+
+    /**
+     * @desc create the code web service
+     * @returns the web service
+     */
+    this.createCodeWebService = function() {
+        log.info('create the code web service');
+
+        var opts = {};
+
+        opts.log = logManager.createLogger('CodeWebService');
+        opts.dataService = factory.createCodeDataService();
+
+        return new CodeWebService( opts );
+    };
+
+    this.createCodeDataService = function() {
+        if (!codeDataService) {
+            log.info('create the code data service');
+
+            var opts = dash.clone( options );
+            opts.log = logManager.createLogger('CodeDataService');
+
+            codeDataService = new CodeDataService( opts );
+        }
+
+        return codeDataService;
+    };
 
     /**
      * @desc Return the service; create it if it doesn't exist
