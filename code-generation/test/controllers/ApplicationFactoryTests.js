@@ -6,6 +6,8 @@
  */
 var should = require('chai').should(),
     dash = require('lodash' ),
+    MockLogManager = require('node-commons' ).mocks.MockLogManager,
+    MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
     Config = require('../../app/controllers/Config' ),
     ApplicationFactory = require('../../app/controllers/ApplicationFactory' );
 
@@ -15,7 +17,7 @@ describe('ApplicationFactory', function() {
     var createOptions = function() {
         var opts = Config.test();
 
-        // logging...
+        opts.logManager = new MockLogManager();
 
         return opts;
     };
@@ -23,9 +25,7 @@ describe('ApplicationFactory', function() {
     describe('#instance', function() {
         var factory = new ApplicationFactory( createOptions() ),
             methods = [
-                'createConfigurationWebService',
-                'createConfigurationDataService',
-                'createConfigurationDao',
+                'createServiceFactory',
                 'createDataSourceFactory',
                 'createWebServices',
                 'startWebApplication',
@@ -73,9 +73,8 @@ describe('ApplicationFactory', function() {
         });
     });
 
-    describe('#Configuration', function() {
-        it('should create configuration dao');
-        it('should create configuration data service');
-        it('should create configuration web service');
+    describe('createServiceFactory', function() {
+        // opts.dataSourceFactory = new MockDataSourceFactory();
+        it('should create a service factory');
     });
 });
