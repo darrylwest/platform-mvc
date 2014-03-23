@@ -3,7 +3,7 @@
  * @classdef test configurations for various environments
  *
  * @author: darryl.west@raincitysoftware.com
- * @created: 3/22/14 12:09 PM
+ * @created: <%= config.dateCreated %>
  */
 var should = require('chai').should(),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,

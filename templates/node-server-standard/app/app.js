@@ -1,8 +1,8 @@
 /**
  * app startup
  *
- * @author: darryl.west@roundpeg.com
- * @created: 3/22/14 10:07 AM
+ * @author: <%= config.authorName %>
+ * @created: <%= config.dateCreated %>
  */
 
 var applicationFactory = require('./controllers/ApplicationFactory' ).createInstance(),

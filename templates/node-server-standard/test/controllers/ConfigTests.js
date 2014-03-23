@@ -2,7 +2,7 @@
  * @class ConfigTests
  *
  * @author: darryl.west@raincitysoftware.com
- * @created: 3/22/14 9:59 AM
+ * @created: <%= config.dateCreated %>
  */
 var should = require('chai').should(),
     Config = require('../../app/controllers/Config');

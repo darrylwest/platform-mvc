@@ -3,7 +3,7 @@
  * @classdesc create all services and their dependencies
  *
  * @author: darryl.west@raincitysoftware.com
- * @created: 3/23/14 9:45 AM
+ * @created: <%= config.dateCreated %>
  */
 var services = '../../app/services',
     delegates = '../../app/delegates',

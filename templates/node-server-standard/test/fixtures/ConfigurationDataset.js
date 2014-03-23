@@ -3,7 +3,7 @@
  * @classdesc dataset to support configuration tests
  *
  * @author: darryl.west@roundpeg.com
- * @created: 3/22/14 11:56 AM
+ * @created: <%= config.dateCreated %>
  */
 var TestDataset = require("node-commons").fixtures.TestDataset,
     Configuration = require("../../app/models/Configuration");

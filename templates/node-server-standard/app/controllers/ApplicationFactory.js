@@ -3,7 +3,7 @@
  * @classdesc builds, or delegates building of all application components
  *
  * @author: darryl.west@raincitysoftware.com
- * @created: 3/22/14 7:06 AM
+ * @created: <%= config.dateCreated %>
  */
 
 var app = '../../app',

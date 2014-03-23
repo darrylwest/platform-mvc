@@ -4,5 +4,5 @@
 <%= config.projectDescription %>
 
 - - -
-<small>*created by <%= config.authorName %>*</small>
+<small>*created by <%= config.authorName %> | <%= config.dateCreated %>*</small>
 

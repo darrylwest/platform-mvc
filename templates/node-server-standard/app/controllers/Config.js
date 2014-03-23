@@ -3,7 +3,7 @@
  * @classdesc start up configurations for various environments
  *
  * @author: darryl.west@raincitysoftware.com
- * @created: 3/22/14 8:19 AM
+ * @created: <%= config.dateCreated %>
  */
 var VERSION = '00.90.001-18101';
 

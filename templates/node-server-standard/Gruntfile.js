@@ -2,7 +2,7 @@
  * Gruntfile for <%= config.projectName %>
  *
  * @author: <%= config.authorName %>
- * @created: <%= new Date() %>
+ * @created: <%= config.dateCreated %>
  */
 module.exports = function(grunt) {
     'use strict';

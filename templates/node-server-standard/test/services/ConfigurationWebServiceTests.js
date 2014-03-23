@@ -3,7 +3,7 @@
  * @classdesc configuration tests for web services API
  *
  * @author: darryl.west@raincitysoftware.com
- * @created: 3/22/14 11:42 AM
+ * @created: <%= config.dateCreated %>
  */
 var should = require('chai').should(),
     dash = require('lodash' ),

@@ -2,7 +2,7 @@
  * @class ConfigurationDataServiceTests
  *
  * @author: darryl.west@raincitysoftware.com
- * @created: 3/22/14 11:55 AM
+ * @created: <%= config.dateCreated %>
  */
 var should = require('chai').should(),
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
