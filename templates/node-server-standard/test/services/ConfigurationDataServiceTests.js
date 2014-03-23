@@ -2,9 +2,10 @@
  * @class ConfigurationDataServiceTests
  *
  * @author: darryl.west@raincitysoftware.com
- * @created: <%= config.dateCreated %>
+ * @created: 3/22/14 11:55 AM
  */
 var should = require('chai').should(),
+    dash = require('lodash' ),
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     MockMySql = require('node-commons' ).mocks.MockMySql,
@@ -18,10 +19,10 @@ var should = require('chai').should(),
 describe( 'ConfigurationDataService', function() {
     'use strict';
 
-    var logManager = new MockLogManager();
-    var dataset = new Dataset();
-    var mysql = null;
-    var cache;
+    var logManager = new MockLogManager(),
+        dataset = new Dataset(),
+        mysql = null,
+        cache;
 
     var createCache = function() {
         var opts = {};
@@ -58,11 +59,24 @@ describe( 'ConfigurationDataService', function() {
     };
 
     describe( '#instance', function() {
-        it('should create an instance of ConfigurationDataService', function() {
-            var service = createDataService();
+        var service = createDataService(),
+            methods = [
+                'query',
+                'find',
+                'save',
+                // inherited
+                'getPooledConnection',
+                'parseInt'
+            ];
 
+        it('should create an instance of ConfigurationDataService', function() {
             should.exist( service );
             service.should.be.instanceof( ConfigurationDataService );
+        });
+
+        it('should have all known methods by size', function() {
+            // console.log( dash.methods( service ));
+            dash.methods( service ).length.should.equal( methods.length );
         });
     });
 
@@ -81,16 +95,42 @@ describe( 'ConfigurationDataService', function() {
         });
     });
 
+    describe('query', function() {
+        it('should find a known set of configurations', function(done) {
+            var service = createDataService(),
+                configurations = dataset.createModelList(3, dataset.createModel);
+
+            // override getPooledConnection to return a prepared connection with the results
+            service.getPooledConnection = function(callback) {
+                // console.log('create the mock connection');
+
+                var connection = mysql.createConnection();
+                connection.expectedResults.push( configurations );
+
+                callback(null, connection);
+            };
+
+            var callback = function(err, list) {
+                should.not.exist( err );
+                should.exist( list );
+
+                list.length.should.equal( 3 );
+
+                done();
+            };
+
+            service.query({}, callback);
+        });
+    });
+
     describe( 'find', function() {
-        it("should find a known configuration", function(done) {
-            var service = createDataService();
-            var configuration = dataset.createModel();
+        it('should find a known configuration', function(done) {
+            var service = createDataService(),
+                configuration = dataset.createModel();
 
             cache.update( configuration );
 
             var callback = function(err, model) {
-                // console.log( logManager.getBuffer() );
-
                 should.not.exist( err );
                 should.exist( model );
 
@@ -107,9 +147,10 @@ describe( 'ConfigurationDataService', function() {
             var service = createDataService();
 
             var callback = function(err, model) {
-                // console.log( logManager.getBuffer() );
-
                 should.not.exist( err );
+
+                // model not found
+                should.not.exist( model );
 
                 done();
             };
@@ -120,19 +161,40 @@ describe( 'ConfigurationDataService', function() {
     });
 
     describe( 'save', function() {
-        it("should insert a new configuration model", function(done) {
-            var service = createDataService();
-            var params = dataset.createModelParams();
+        var params = dataset.createModelParams();
 
-            var count = cache.size();
+        it("should insert a new configuration model", function(done) {
+            var service = createDataService(),
+                count = cache.size();
 
             var callback = function(err, model) {
-                // console.log( logManager.getBuffer() );
+                should.not.exist( err );
+                should.exist( model );
 
-                // should.not.exist( err );
-                // should.exist( model );
+                model.id.should.equal( params.id );
 
-                // model.id.should.equal( params.id );
+                cache.size().should.equal( count + 1 );
+
+                done();
+            };
+
+            service.save( params, callback );
+        });
+
+        it('should update an existing configuration model', function(done) {
+            var service = createDataService(),
+                count;
+
+            cache.update( params );
+            count = cache.size();
+
+            var callback = function(err, model) {
+                should.not.exist( err );
+                should.exist( model );
+
+                model.id.should.equal( params.id );
+
+                cache.size().should.equal( count );
 
                 done();
             };

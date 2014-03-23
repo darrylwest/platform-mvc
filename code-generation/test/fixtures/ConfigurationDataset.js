@@ -6,7 +6,7 @@
  * @created: 3/22/14 11:56 AM
  */
 var TestDataset = require("node-commons").fixtures.TestDataset,
-    Configuration = require("../../app/models/Configuration");
+    Configuration = require("../../app/models/Configuration" );
 
 var ConfigurationDataset = function() {
     "use strict";
