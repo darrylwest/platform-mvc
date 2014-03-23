@@ -8,30 +8,26 @@
 var should = require('chai').should(),
     dash = require('lodash' ),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
-    MockExpress = require('node-commons').mocks.MockExpress,
-    DataSourceFactory = require('node-commons' ).controllers.DataSourceFactory,
+    MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
     Config = require('../../app/controllers/Config' ),
-    ApplicationFactory = require('../../app/controllers/ApplicationFactory' ),
+    ServiceFactory = require('../../app/controllers/ServiceFactory' ),
     ConfigurationWebService = require('../../app/services/ConfigurationWebService');
 
 describe( 'ConfigurationWebService', function() {
     'use strict';
 
-    var logManager = new MockLogManager();
+    var logManager = new MockLogManager(),
+        dataSourceFactory = new MockDataSourceFactory(),
+        createWebService;
 
-    var createMockDataSourceFactory = function() {
+    createWebService = function() {
         var opts = Config.test();
-        opts.log = logManager.createLogger('DataSourceFactory');
 
-        return new DataSourceFactory( opts );
-    };
+        opts.log = logManager.createLogger('ServiceFactory');
+        opts.logManager = logManager;
+        opts.dataSourceFactory = dataSourceFactory;
 
-    var createWebService = function() {
-        var opts = Config.test();
-        opts.dataSourceFactory = createMockDataSourceFactory();
-
-        var factory = new ApplicationFactory( opts );
-        factory.createLogManager();
+        var factory = new ServiceFactory( opts );
 
         return factory.createConfigurationWebService();
     };

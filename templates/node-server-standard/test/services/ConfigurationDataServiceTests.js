@@ -11,7 +11,7 @@ var should = require('chai').should(),
     Config = require('../../app/controllers/Config' ),
     DataModelCache = require('node-commons' ).delegates.DataModelCache,
     Dataset = require( "../fixtures/ConfigurationDataset" ),
-    ApplicationFactory = require('../../app/controllers/ApplicationFactory' ),
+    ServiceFactory = require('../../app/controllers/ServiceFactory' ),
     ConfigurationDao = require('../../app/dao/ConfigurationDao' ),
     ConfigurationDataService = require('../../app/services/ConfigurationDataService');
 
@@ -45,12 +45,14 @@ describe( 'ConfigurationDataService', function() {
         var opts = Config.test();
 
 
+        opts.log = logManager.createLogger('ServiceManager');
+        opts.logManager = logManager;
         opts.dataSourceFactory = new MockDataSourceFactory( { mysql:mysql });
         opts.configurationDao = createConfigurationDao();
 
-        var applicationFactory = new ApplicationFactory( opts );
+        var factory = new ServiceFactory( opts );
 
-        var service = applicationFactory.createConfigurationDataService();
+        var service = factory.createConfigurationDataService();
 
         return service;
     };

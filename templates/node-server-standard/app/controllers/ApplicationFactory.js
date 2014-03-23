@@ -17,11 +17,8 @@ var app = '../../app',
     AbstractApplicationFactory = require( 'node-commons' ).controllers.AbstractApplicationFactory,
     BootStrap = require( 'node-commons' ).controllers.CommonBootStrap,
     DataSourceFactory = require( 'node-commons' ).controllers.DataSourceFactory,
-    DataModelCache = require( 'node-commons' ).delegates.DataModelCache,
     Config = require('../../app/controllers/Config' ),
-    ConfigurationWebService = require( services + '/ConfigurationWebService' ),
-    ConfigurationDataService = require( services + '/ConfigurationDataService' ),
-    ConfigurationDao = require( dao + '/ConfigurationDao' ),
+    ServiceFactory = require('./ServiceFactory' ),
     dash = require('lodash');
 
 /**
@@ -34,8 +31,7 @@ var ApplicationFactory = function(options) {
     var factory = this,
         log,
         dataSourceFactory = options.dataSourceFactory,
-        configurationDataService = options.configurationDataService,
-        configurationDao = options.configurationDao,
+        serviceFactory = options.serviceFactory,
         webServiceList = [
             'IndexPageService',
             'WebStatusService',
@@ -44,75 +40,26 @@ var ApplicationFactory = function(options) {
 
     AbstractApplicationFactory.extend( this, options );
 
-    /**
-     * @desc Return the service; create it if it doesn't exist
-     *
-     * @returns the singleton configuration web service
-     */
-    this.createConfigurationWebService = function() {
-        var service = factory.findService( ConfigurationWebService.SERVICE_NAME );
-
-        if (!service) {
-            log.info("create configuration web service");
-
-            var opts = {};
-            opts.log = factory.createLogger( ConfigurationWebService.SERVICE_NAME );
-            opts.dataService = factory.createConfigurationDataService();
-
-            service = new ConfigurationWebService( opts );
-        }
-
-        return service;
-    };
 
     /**
-     * Return the service; create it if it doesn't exist
-     *
-     * @returns the singleton configuration data service object
+     * @desc creates the service factory
+     * @returns serviceFactory
      */
-    this.createConfigurationDataService = function() {
-        if (!configurationDataService) {
-            log.info("create configuration web service");
+    this.createServiceFactory = function() {
+        if (!serviceFactory) {
+            log.info('create the service factory');
 
-            var opts = {};
-            opts.log = factory.createLogger( 'ConfigurationDataService' );
+            var opts = dash.clone( options );
+
+            opts.logManager = factory.createLogManager();
+            opts.log = factory.createLogger('ServiceFactory');
             opts.dataSourceFactory = factory.createDataSourceFactory();
-            opts.dao = factory.createConfigurationDao();
 
-            configurationDataService = new ConfigurationDataService( opts );
+            serviceFactory = new ServiceFactory( opts );
         }
 
-        return configurationDataService;
+        return serviceFactory;
     };
-
-    /**
-     * @desc Return the dao; create it if it doesn't exist
-     *
-     * @returns the singleton dao
-     */
-    this.createConfigurationDao = function() {
-        if (!configurationDao) {
-            log.info("create configuration dao and cache");
-
-            var createCache = function() {
-                var opts = {};
-                opts.log = factory.createLogger( 'ConfigurationCache' );
-                opts.capacity = 10;
-
-                return new DataModelCache( opts );
-            };
-
-            var opts = {};
-            opts.log = factory.createLogger( 'ConfigurationDao' );
-            opts.cache = createCache();
-
-            configurationDao = new ConfigurationDao( opts );
-        }
-
-        return configurationDao;
-    };
-
-    // TODO create the services: builder, templates
 
     /**
      * @desc create the common data source factory; data sources include mysql, redis, S3, etc.
@@ -148,12 +95,20 @@ var ApplicationFactory = function(options) {
      * @returns an array of all web services
      */
     this.createWebServices = function() {
+        if (!serviceFactory) {
+            serviceFactory = factory.createServiceFactory();
+        }
+
         webServiceList.forEach(function(name) {
             var service = factory.findService( name );
             if (!service) {
                 var closure = 'create' + name;
                 log.info('invoking: ', closure);
-                service = factory[ closure ].call();
+                if (factory.hasOwnProperty( closure )) {
+                    service = factory[ closure ].call();
+                } else {
+                    service = serviceFactory[ closure ].call();
+                }
 
                 factory.addService( service );
             }
