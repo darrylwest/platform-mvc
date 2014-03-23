@@ -8,6 +8,16 @@ HOST="http://localhost:14060/CodeGenerationService"
 id='node-service-standard'
 attributes='{
     "description":"Create a standard node REST service with access to MySQL, redis, AWS, etc.  Optionally include established application and test services and add custom services",
+    "serviceName":{
+        "prompt":"Node Service Name",
+        "validation":"inLength(1,40)",
+        "value":""
+    },
+    "servicePort":{
+        "prompt":"Port Number",
+        "validation":"isNumberBetween(1024,99999)",
+        "value":""
+    },
     "application-includes":{
         "controllers":[
             "ApplicationFactory",
@@ -40,16 +50,6 @@ attributes='{
         "services":[
             "ConfigurationWebServiceTests","ConfigurationDataServiceTests"
         ]
-    },
-    "serviceName":{
-        "prompt":"Node Service Name",
-        "validation":"inLength(1,40)",
-        "value":""
-    },
-    "servicePort":{
-        "prompt":"Port Number",
-        "validation":"isNumberBetween(1024,99999)",
-        "value":""
     }
 }'
 

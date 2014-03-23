@@ -45,7 +45,7 @@ A simple client application is used to initiate code generation for the specifie
 
 
 - - -
-<small>*darryl west, Rain City Software, march, 2014*</small>
+<small>*darryl west | Rain City Software | march, 2014*</small>
 
 
 
