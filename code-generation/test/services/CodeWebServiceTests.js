@@ -41,7 +41,7 @@ describe('CodeWebService', function() {
     describe('#instance', function() {
         var service = new CodeWebService( createOptions() ),
             methods = [
-                'create',
+                'generateCode',
                 // inherited
                 'createFailedResponse',
                 'createListPayload',

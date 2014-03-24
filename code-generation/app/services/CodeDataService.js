@@ -23,10 +23,13 @@ var CodeDataService = function(options) {
      * @param params - a known code generation configuration
      * @param responseCallback
      */
-    this.create = function(params, responseCallback) {
+    this.generateCode = function(params, responseCallback) {
         log.info('create the code from params: ', params);
 
-        responseCallback(new Error('not implemented yet'));
+        var config = JSON.parse( params.config ),
+            targetFile = config.targetFile || 'output.tar.gz';
+
+        responseCallback(null, { "file":targetFile });
     };
 
     // constructor validations

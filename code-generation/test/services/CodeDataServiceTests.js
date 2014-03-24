@@ -28,7 +28,7 @@ describe('CodeDataService', function() {
     describe('#instance', function() {
         var service = new CodeDataService( createOptions() ),
             methods = [
-                'create',
+                'generateCode',
                 // inherited
                 'getPooledConnection',
                 'parseInt'
