@@ -47,11 +47,7 @@ var Config = function(options) {
     this.keys = externalConfig.keys;
     this.database = externalConfig.database;
 
-    if (process.env.HOME) {
-        this.reportsFilePath = process.env.HOME + '/reports';
-    } else {
-        this.reportsFilePath = '/tmp';
-    }
+    this.templatesFilePath = '../../templates';
 };
 
 Config.development = function(opts) {

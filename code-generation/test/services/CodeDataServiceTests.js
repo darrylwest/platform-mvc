@@ -29,6 +29,7 @@ describe('CodeDataService', function() {
         var service = new CodeDataService( createOptions() ),
             methods = [
                 'generateCode',
+                'verifyTemplate',
                 // inherited
                 'getPooledConnection',
                 'parseInt'

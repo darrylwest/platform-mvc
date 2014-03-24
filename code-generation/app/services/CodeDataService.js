@@ -29,7 +29,25 @@ var CodeDataService = function(options) {
         var config = JSON.parse( params.config ),
             targetFile = config.targetFile || 'output.tar.gz';
 
+        // verify the template
+        if (service.readTemplateFolder( config.template )) {
+
+        }
+
         responseCallback(null, { "file":targetFile });
+    };
+
+    /**
+     * @desc verify the specified template by searching the templates folder(s).  if found, return true
+     *
+     * @param template
+     * @returns {boolean}
+     */
+    this.verifyTemplate = function(template) {
+        if (!template) return false;
+
+
+
     };
 
     // constructor validations

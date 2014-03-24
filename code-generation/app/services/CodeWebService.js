@@ -21,6 +21,12 @@ var CodeWebService = function(options) {
 
     AbstractWebService.extend( this, options );
 
+    /**
+     * @desc generate code as directed by the request config
+     *
+     * @param request - a json request object
+     * @param response
+     */
     this.generateCode = function(request, response) {
         var params = request.body;
 
