@@ -7,9 +7,9 @@ HOST="http://localhost:14060/CodeGenerationService"
 
 config='{
     "template":"node-service-standard",
-    "projectName":"My Fun Project",
-    "serviceName":"FunService",
-    "dateCreated":"2014-03-01",
+    "projectName":"todo-list",
+    "serviceName":"TodoListService",
+    "dateCreated":"now",
     "author":"kerry.coder@coders.com"
 }'
 
