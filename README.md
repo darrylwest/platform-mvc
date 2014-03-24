@@ -3,7 +3,7 @@
 *A multi-language Model-View-Controller platform generation service...*
 - - -
 ## Overview
-The objective of this project is to define code generation tools that create Model View Controller projects for client or server independent of language.  Standard MVC platforms have evolved from Java, Ruby, groovy with embedded jetty, and javascript for both client/browser and node/server applications.
+The objective of this project is to define code generation tools that create Model View Controller projects for client or server independent of language.  Standard MVC platforms have evolved from Java, Python, Ruby, groovy with embedded jetty, and javascript for both client/browser and node/server applications.
 
 The service is intended to run on a remote machine and accept requests for project generation with a supplied configuration.  Project generation is completed and returned to the requestor as a tar or zip distribution.
 
@@ -34,7 +34,9 @@ MVC applications are a collection of source files that implement specific logic 
 - views - formal views, if any exist.  services don't have views.  clients have views but they may be dynamically created, so this folder is often empty
 
 ### Other Folders
+
 #### Libraries
+
 #### Configuration
 Each project may optionally contain a configuration folder, usually named 'config'.  Configurations stored in the config folder enables easy configuration across multiple customer installations. 
 #### Test
