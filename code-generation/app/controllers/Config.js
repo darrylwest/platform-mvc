@@ -7,7 +7,8 @@
  */
 var VERSION = '00.90.001-18101';
 
-var externalConfig;
+var externalConfig,
+    path = require('path');
 
 /**
  * @param options
@@ -47,7 +48,7 @@ var Config = function(options) {
     this.keys = externalConfig.keys;
     this.database = externalConfig.database;
 
-    this.templatesFilePath = '../../templates';
+    this.templateFolder = path.join( __dirname, '/../../../templates' );
 };
 
 Config.development = function(opts) {

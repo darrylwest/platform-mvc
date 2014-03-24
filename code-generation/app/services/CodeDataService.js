@@ -6,13 +6,16 @@
  * @created: 3/23/14 2:20 PM
  */
 var serviceName = 'CodeDataService',
-    AbstractDataService = require('node-commons' ).services.AbstractDataService;
+    AbstractDataService = require('node-commons' ).services.AbstractDataService,
+    path = require('path' ),
+    fs = require('fs');
 
 var CodeDataService = function(options) {
     'use strict';
 
     var service = this,
-        log = options.log;
+        log = options.log,
+        templateFolder = options.templateFolder;
         // TODO add builder delegates
 
     AbstractDataService.extend( this, options );
@@ -29,25 +32,38 @@ var CodeDataService = function(options) {
         var config = JSON.parse( params.config ),
             targetFile = config.targetFile || 'output.tar.gz';
 
-        // verify the template
-        if (service.readTemplateFolder( config.template )) {
+        var templateFilesCallback = function(err, files) {
+            if (err) return responseCallback( err );
 
-        }
+            var obj = {
+                "distributionFile":targetFile,
+                "fileList":files
+            };
 
-        responseCallback(null, { "file":targetFile });
+            responseCallback(null, obj);
+        };
+
+        service.readTemplateFiles( config.template, templateFilesCallback );
     };
+
+    // TODO create a template file reader delegate to read and process all files
 
     /**
      * @desc verify the specified template by searching the templates folder(s).  if found, return true
      *
      * @param template
-     * @returns {boolean}
+     * @callback list of files in the specified template
      */
-    this.verifyTemplate = function(template) {
-        if (!template) return false;
+    this.readTemplateFiles = function(template, callback) {
+        if (!template) return callback( new Error('not a valid template') );
 
+        var fileList = [],
+            folderList = [],
+            folder = path.join( templateFolder, template );
 
+        log.info('find template files from: ', folder);
 
+        return callback(null, fileList);
     };
 
     // constructor validations

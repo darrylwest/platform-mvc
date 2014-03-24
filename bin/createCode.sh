@@ -6,7 +6,7 @@
 HOST="http://localhost:14060/CodeGenerationService"
 
 config='{
-    "template":"node-service-standard",
+    "template":"node-server-standard",
     "projectName":"todo-list",
     "serviceName":"TodoListService",
     "dateCreated":"now",
