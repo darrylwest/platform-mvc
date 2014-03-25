@@ -7,16 +7,15 @@
  */
 var serviceName = 'CodeDataService',
     AbstractDataService = require('node-commons' ).services.AbstractDataService,
-    path = require('path' ),
-    fs = require('fs');
+    path = require('path' );
 
 var CodeDataService = function(options) {
     'use strict';
 
     var service = this,
         log = options.log,
-        templateFolder = options.templateFolder;
-        // TODO add builder delegates
+        templateFolder = options.templateFolder,
+        walker = options.fileWalker;
 
     AbstractDataService.extend( this, options );
 
@@ -43,31 +42,14 @@ var CodeDataService = function(options) {
             responseCallback(null, obj);
         };
 
-        service.readTemplateFiles( config.template, templateFilesCallback );
+        walker.readFiles( path.join( templateFolder, config.template ), templateFilesCallback );
     };
 
     // TODO create a template file reader delegate to read and process all files
 
-    /**
-     * @desc verify the specified template by searching the templates folder(s).  if found, return true
-     *
-     * @param template
-     * @callback list of files in the specified template
-     */
-    this.readTemplateFiles = function(template, callback) {
-        if (!template) return callback( new Error('not a valid template') );
-
-        var fileList = [],
-            folderList = [],
-            folder = path.join( templateFolder, template );
-
-        log.info('find template files from: ', folder);
-
-        return callback(null, fileList);
-    };
-
     // constructor validations
     if (!log) throw new Error("data service must be constructed with a log");
+    if (!walker) throw new Error("data service must be constructed with a file walker");
 };
 
 module.exports = CodeDataService;

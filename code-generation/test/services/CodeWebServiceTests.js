@@ -23,8 +23,9 @@ describe('CodeWebService', function() {
         var opts = Config.test();
 
         opts.log = logManager.createLogger('CodeDataService');
-
-        // TODO create the builder delegates
+        opts.fileWalker = function(start, callback) {
+            return callback(null, []);
+        };
 
         return new CodeDataService( opts );
     };

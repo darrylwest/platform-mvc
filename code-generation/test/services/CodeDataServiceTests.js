@@ -21,6 +21,9 @@ describe('CodeDataService', function() {
         var opts = Config.test();
 
         opts.log = logManager.createLogger('CodeDataService');
+        opts.fileWalker = function(start, callback) {
+            return callback(null, []);
+        };
 
         return opts;
     };

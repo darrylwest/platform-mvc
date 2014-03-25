@@ -47,7 +47,7 @@ describe('FileWalker', function() {
                 should.not.exist( err );
                 should.exist( files );
 
-                // files.length.should.
+                files.length.should.be.above( 30 );
 
                 done();
             };

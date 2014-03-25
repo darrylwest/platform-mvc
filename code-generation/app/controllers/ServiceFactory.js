@@ -14,6 +14,7 @@ var services = '../../app/services',
     ConfigurationDao = require( dao + '/ConfigurationDao' ),
     CodeWebService = require( services + '/CodeWebService' ),
     CodeDataService = require( services + '/CodeDataService' ),
+    FileWalker = require( delegates + '/FileWalker' ),
     dash = require('lodash');
 
 /**
@@ -29,7 +30,21 @@ var ServiceFactory = function(options) {
         dataSourceFactory = options.dataSourceFactory,
         configurationDataService = options.configurationDataService,
         configurationDao = options.configurationDao,
-        codeDataService = options.codeDataService;
+        codeDataService = options.codeDataService,
+        walker = options.fileWalker;
+
+    this.createFileWalker = function() {
+        if (!walker) {
+            log.info('create file walker');
+
+            var opts = {};
+            opts.log = logManager.createLogger('FileWalker');
+
+            walker = new FileWalker( opts );
+        }
+
+        return walker;
+    };
 
     /**
      * @desc create the code web service
@@ -52,6 +67,7 @@ var ServiceFactory = function(options) {
 
             var opts = dash.clone( options );
             opts.log = logManager.createLogger('CodeDataService');
+            opts.fileWalker = factory.createFileWalker();
 
             codeDataService = new CodeDataService( opts );
         }

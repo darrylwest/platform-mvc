@@ -37,7 +37,8 @@ describe('ServiceFactory', function() {
                 'createCodeDataService',
                 'createConfigurationWebService',
                 'createConfigurationDataService',
-                'createConfigurationDao'
+                'createConfigurationDao',
+                'createFileWalker'
             ];
 
         it('should create an instance of ServiceFactory', function() {
