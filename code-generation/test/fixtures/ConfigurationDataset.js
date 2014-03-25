@@ -2,7 +2,7 @@
  * @class ConfigurationDataset
  * @classdesc dataset to support configuration tests
  *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 3/22/14 11:56 AM
  */
 var TestDataset = require("node-commons").fixtures.TestDataset,
