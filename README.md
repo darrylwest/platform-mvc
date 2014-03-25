@@ -5,21 +5,24 @@
 ## Overview
 The objective of this project is to define code generation tools that create Model View Controller projects for client or server independent of language.  Standard MVC platforms have evolved from Java, Python, Ruby, groovy with embedded jetty, and javascript for both client/browser and node/server applications.
 
-The service is intended to run on a remote machine and accept requests for project generation with a supplied configuration.  Project generation is completed and returned to the requestor as a tar or zip distribution.
+The full application runs in multiple parts including the code generation service, command line interface, and a browser application.  The generation service runs on a remote machine and accepts requests for project generation with a supplied configuration.  Project generation is completed and returned to the requestor as a tar or zip distribution.  Alternatively, the generation project can be run locally and accessed from the command line to create projects locally.
 
 ## Code Generation
 
 ### Node Services
-The node service generator creates a standard JSON request/response service that is intended to pair up to a client application.  Node service do not create any HTML--only JSON.  
+The node service generator creates a standard JSON request/response service that is intended to pair up to a client application.  Node service do not create any HTML--only JSON.
+
 ### Browser Applications
 MVC client/browser applications are single page HTML5 applications that can run from any web container.  Client applications follow the standard MVC package layout and contain many class files.  This is the standard development configuration.  
 
 For production, the class files compile to a single application.js file that can be cached and run off-line.  An application.css file is also created for production.
 
 ### Service Domains
+
 ### Generated Distribution 
 
 ## Implementation
+
 ### Application Folder Structure
 MVC applications are a collection of source files that implement specific logic with respect to their own domain.  For simplicity, our MVC framework keeps files in predictable, well named folders no more than one layer deep.  The folder names are consistent and only vary based on application type, e.g., client/browser or server.
 
