@@ -9,6 +9,8 @@ var should = require('chai').should(),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
     Config = require('../../app/controllers/Config' ),
+    FileWalker = require('../../app/delegates/FileWalker'),
+    CodeGenerator = require('../../app/delegates/CodeGenerator'),
     CodeDataService = require('../../app/services/CodeDataService');
 
 describe('CodeDataService', function() {
@@ -21,9 +23,8 @@ describe('CodeDataService', function() {
         var opts = Config.test();
 
         opts.log = logManager.createLogger('CodeDataService');
-        opts.fileWalker = function(start, callback) {
-            return callback(null, []);
-        };
+        opts.fileWalker = new FileWalker( opts );
+        opts.codeGenerator = new CodeGenerator( opts );
 
         return opts;
     };

@@ -44,13 +44,12 @@ var CodeDataService = function(options) {
             codeGenerator.generateCode(config, files, generationCompleteCallback);
         };
 
-        walker.readFiles( path.join( templateFolder, config.template ), templateFilesCallback );
+        walker.findFiles( path.join( templateFolder, config.template ), templateFilesCallback );
     };
-
-
 
     // constructor validations
     if (!log) throw new Error("data service must be constructed with a log");
+    if (!codeGenerator) throw new Error('data service must be constructed with a code generator');
     if (!walker) throw new Error("data service must be constructed with a file walker");
 };
 

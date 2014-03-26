@@ -83,6 +83,7 @@ var ServiceFactory = function(options) {
             var opts = dash.clone( options );
             opts.log = logManager.createLogger('CodeDataService');
             opts.fileWalker = factory.createFileWalker();
+            opts.codeGenerator = factory.createCodeGenerator();
 
             codeDataService = new CodeDataService( opts );
         }
