@@ -41,6 +41,12 @@ var ConfigurationDataset = function() {
         return configuration;
     };
 
+    this.createCodeConfig = function() {
+        var config = {};
+
+        return config;
+    };
+
 };
 
 module.exports = ConfigurationDataset;

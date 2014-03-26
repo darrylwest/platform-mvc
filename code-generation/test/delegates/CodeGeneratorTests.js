@@ -6,6 +6,7 @@
  */
 var should = require('chai').should(),
     dash = require('lodash' ),
+    Dataset = require('../fixtures/ConfigurationDataset'),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
     Config = require('../../app/controllers/Config' ),
@@ -16,6 +17,7 @@ describe('CodeGenerator', function() {
     'use strict';
 
     var logManager = new MockLogManager(),
+        dataset = new Dataset(),
         createOptions;
 
     createOptions = function() {
@@ -32,6 +34,7 @@ describe('CodeGenerator', function() {
             methods = [
                 'createInstance',
                 'getId',
+                'processFile',
                 'generateCode'
             ];
 
@@ -59,6 +62,26 @@ describe('CodeGenerator', function() {
             should.not.exist( codeGenerator.mytest );
 
             codeGenerator.getId().should.not.equal( instance.getId() );
+        });
+    });
+
+    describe('generateCode', function() {
+        var delegate = new CodeGenerator( createOptions() );
+
+        it('should simply return when file list is empty', function(done) {
+            var config = dataset.createCodeConfig(),
+                generator = delegate.createInstance(),
+                files = [],
+                callback;
+
+            callback = function(err, results) {
+                should.not.exist( err );
+                should.exist( results );
+
+                done();
+            };
+
+            generator.generateCode( config, files, callback );
         });
     });
 });
