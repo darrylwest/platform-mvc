@@ -27,7 +27,7 @@ describe('CodeWebService', function() {
         opts.log = logManager.createLogger('CodeDataService');
         opts.fileWalker = new FileWalker( opts );
         opts.codeGenerator = new CodeGenerator( opts );
-        
+
         return new CodeDataService( opts );
     };
 

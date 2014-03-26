@@ -1,7 +1,7 @@
 /**
  * @class CodeGeneratorTests
  *
- * @author: darryl.west@roundpeg.com
+ * @author: darryl.west@raincitysoftware.com
  * @created: 3/26/14
  */
 var should = require('chai').should(),
