@@ -2,11 +2,14 @@
  * @class FileWalker
  * @classdesc given a start folder, walk the entire tree and return all regular files
  *
+ * TODO: replace with evented findit module
+ *
  * @author: darryl.west@raincitysoftware.com
  * @created: 3/24/14 3:48 PM
  */
 var dash = require('lodash' ),
     path = require('path' ),
+    findit = require('findit' ),
     fs = require('fs');
 
 var FileWalker = function(options) {
@@ -25,49 +28,48 @@ var FileWalker = function(options) {
         log.info('read files in folder: ', start);
 
         var files = [],
-            dirs = [],
-            currentDir = start,
-            readDirCallback,
-            readNextDir;
+            dirExistsCallback;
 
-        readNextDir = function(results, completeCallback) {
-            results.files.forEach(function(file) {
+        dirExistsCallback = function(err, stats) {
+            if (err) return readCompleteCallback( err );
+
+            var finder = walker.createFinder( start );
+
+            finder.on('file', function(file, stat) {
                 files.push( file );
             });
 
-            if (results.dirs.length > 0) {
-                results.dirs.forEach(function(dir) {
-                    dirs.push( dir );
-                });
-            }
-
-            if (dirs.length > 0) {
-                currentDir = dirs.pop();
-                fs.readdir( currentDir, readDirCallback );
-            } else {
-                return completeCallback( null, files );
-            }
-        };
-
-        readDirCallback = function(err, files) {
-            if (err) return readCompleteCallback( err );
-
-            var fileList = [],
-                dirList = [];
-
-            files.forEach(function(name) {
-                var fullPath = path.join( currentDir, name );
-                if (fs.statSync( fullPath ).isDirectory()) {
-                    dirList.push( fullPath );
-                } else {
-                    fileList.push( fullPath );
-                }
+            finder.on('end', function() {
+                readCompleteCallback( null, files );
             });
 
-            readNextDir( { dirs:dirList, files:fileList }, readCompleteCallback );
         };
 
-        fs.readdir( currentDir, readDirCallback );
+        fs.lstat( start, dirExistsCallback );
+    };
+
+    /**
+     * @desc create a finder object
+     * @param dir - the start folder (can be a symbolic link but it must be a folder)
+     * @param opts - optional
+     * @returns the find (findit) object
+     */
+    this.createFinder = function(dir, opts) {
+        if (!opts) opts = walker.createFindOptions();
+
+        return findit( dir, opts );
+    };
+
+    /**
+     * @desc create the finder options
+     * @returns the default finder options
+     */
+    this.createFindOptions = function() {
+        var opts = {
+            followSymlinks:true
+        };
+
+        return opts;
     };
 
     // constructor validations

@@ -25,7 +25,9 @@ describe('FileWalker', function() {
     describe('#instance', function() {
         var walker = new FileWalker( createOptions() ),
             methods = [
-                'readFiles'
+                'readFiles',
+                'createFinder',
+                'createFindOptions'
             ];
 
         it('should create an instance of FileWalker', function() {
