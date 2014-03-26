@@ -30,6 +30,8 @@ describe('CodeGenerator', function() {
     describe('#instance', function() {
         var generator = new CodeGenerator( createOptions()),
             methods = [
+                'createInstance',
+                'getId',
                 'generateCode'
             ];
 
@@ -40,6 +42,23 @@ describe('CodeGenerator', function() {
 
         it('should have all expected methods by size', function() {
             dash.methods( generator ).length.should.equal( methods.length );
+        });
+    });
+
+    describe('createInstance', function() {
+        var codeGenerator = new CodeGenerator( createOptions() );
+
+        it('should create a clone of the instance', function() {
+            var instance = codeGenerator.createInstance();
+
+            should.exist( instance );
+            instance.should.be.instanceof( CodeGenerator );
+
+            // now set some instance variable and verify it doesn't affect the original
+            instance.mytest = 'this is my test';
+            should.not.exist( codeGenerator.mytest );
+
+            codeGenerator.getId().should.not.equal( instance.getId() );
         });
     });
 });
