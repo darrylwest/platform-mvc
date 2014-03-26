@@ -47,6 +47,12 @@ var FileWalker = function(options) {
         fs.lstat( start, dirExistsCallback );
     };
 
+    /**
+     * @desc find all the directories under a specified start folder
+     *
+     * @param start the folder or symbolic link to start from
+     * @param readCompleteCallback (err, directories)
+     */
     this.findFolders = function(start, readCompleteCallback) {
         log.info('read folders in folder: ', start);
 
@@ -72,6 +78,7 @@ var FileWalker = function(options) {
 
     /**
      * @desc create a finder object
+     *
      * @param dir - the start folder (can be a symbolic link but it must be a folder)
      * @param opts - optional
      * @returns the find (findit) object
@@ -84,6 +91,7 @@ var FileWalker = function(options) {
 
     /**
      * @desc create the finder options
+     * 
      * @returns the default finder options
      */
     this.createFindOptions = function() {
