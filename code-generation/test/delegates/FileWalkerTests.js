@@ -25,7 +25,8 @@ describe('FileWalker', function() {
     describe('#instance', function() {
         var walker = new FileWalker( createOptions() ),
             methods = [
-                'readFiles',
+                'findFiles',
+                'findFolders',
                 'createFinder',
                 'createFindOptions'
             ];
@@ -40,7 +41,7 @@ describe('FileWalker', function() {
         });
     });
 
-    describe('readFiles', function() {
+    describe('findFiles', function() {
         var options = createOptions(),
             walker = new FileWalker( options );
 
@@ -54,7 +55,25 @@ describe('FileWalker', function() {
                 done();
             };
 
-            walker.readFiles( path.join( options.templateFolder, 'node-server-standard'), callback );
+            walker.findFiles( path.join( options.templateFolder, 'node-server-standard'), callback );
+        });
+    });
+
+    describe('findFolders', function() {
+        var options = createOptions(),
+            walker = new FileWalker( options );
+
+        it('should find all known folders', function(done) {
+            var callback = function(err, files) {
+                should.not.exist( err );
+                should.exist( files );
+
+                files.length.should.be.above( 10 );
+
+                done();
+            };
+
+            walker.findFolders(  options.templateFolder, callback );
         });
     });
 });

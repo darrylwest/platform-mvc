@@ -24,7 +24,7 @@ var FileWalker = function(options) {
      * @param start - the top-level folder
      * @param readCompleteCallback (err, files)
      */
-    this.readFiles = function(start, readCompleteCallback) {
+    this.findFiles = function(start, readCompleteCallback) {
         log.info('read files in folder: ', start);
 
         var files = [],
@@ -42,7 +42,29 @@ var FileWalker = function(options) {
             finder.on('end', function() {
                 readCompleteCallback( null, files );
             });
+        };
 
+        fs.lstat( start, dirExistsCallback );
+    };
+
+    this.findFolders = function(start, readCompleteCallback) {
+        log.info('read folders in folder: ', start);
+
+        var dirs = [],
+            dirExistsCallback;
+
+        dirExistsCallback = function(err, stats) {
+            if (err) return readCompleteCallback( err );
+
+            var finder = walker.createFinder( start );
+
+            finder.on('directory', function(file, stat) {
+                dirs.push( file );
+            });
+
+            finder.on('end', function() {
+                readCompleteCallback( null, dirs );
+            });
         };
 
         fs.lstat( start, dirExistsCallback );
