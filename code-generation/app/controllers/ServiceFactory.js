@@ -15,6 +15,7 @@ var services = '../../app/services',
     CodeWebService = require( services + '/CodeWebService' ),
     CodeDataService = require( services + '/CodeDataService' ),
     FileWalker = require( delegates + '/FileWalker' ),
+    CodeGenerator = require( delegates + '/CodeGenerator'),
     dash = require('lodash');
 
 /**
@@ -31,6 +32,7 @@ var ServiceFactory = function(options) {
         configurationDataService = options.configurationDataService,
         configurationDao = options.configurationDao,
         codeDataService = options.codeDataService,
+        codeGenerator = options.codeGenerator,
         walker = options.fileWalker;
 
     this.createFileWalker = function() {
@@ -44,6 +46,19 @@ var ServiceFactory = function(options) {
         }
 
         return walker;
+    };
+
+    this.createCodeGenerator = function() {
+        if (!codeGenerator) {
+            log.info('create code generator');
+
+            var opts = {};
+            opts.log = logManager.createLogger('CodeGenerator');
+
+            codeGenerator = new CodeGenerator( opts );
+        }
+
+        return codeGenerator;
     };
 
     /**

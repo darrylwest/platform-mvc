@@ -15,7 +15,8 @@ var CodeDataService = function(options) {
     var service = this,
         log = options.log,
         templateFolder = options.templateFolder,
-        walker = options.fileWalker;
+        walker = options.fileWalker,
+        codeGenerator = options.codeGenerator;
 
     AbstractDataService.extend( this, options );
 
@@ -31,21 +32,22 @@ var CodeDataService = function(options) {
         var config = JSON.parse( params.config ),
             targetFile = config.targetFile || 'output.tar.gz';
 
+        var generationCompleteCallback = function(err, results) {
+
+
+            responseCallback(null, results);
+        };
+
         var templateFilesCallback = function(err, files) {
             if (err) return responseCallback( err );
 
-            var obj = {
-                "distributionFile":targetFile,
-                "fileList":files
-            };
-
-            responseCallback(null, obj);
+            codeGenerator.generateCode(config, files, generationCompleteCallback);
         };
 
         walker.readFiles( path.join( templateFolder, config.template ), templateFilesCallback );
     };
 
-    // TODO create a template file reader delegate to read and process all files
+
 
     // constructor validations
     if (!log) throw new Error("data service must be constructed with a log");
