@@ -90,8 +90,11 @@ describe('CodeGenerator', function() {
             delegate;
 
         // set the config...
-        
+
         it('should process a known template file and return the results', function(done) {
+            options.config = dataset.createCodeConfig();
+            delegate = new CodeGenerator( options );
+
             var callback = function(err, text) {
                 should.not.exist( err );
 
