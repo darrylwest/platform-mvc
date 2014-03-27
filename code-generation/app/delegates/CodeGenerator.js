@@ -7,6 +7,7 @@
  */
 var dash = require('lodash'),
     uuid = require('node-uuid'),
+    fs = require('fs'),
     async = require('async');
 
 /**
@@ -20,7 +21,8 @@ var CodeGenerator = function(options) {
         log = options.log,
         fileWalker = options.fileWalker,
         id = uuid.v4(),
-        generationCompleteCallback;
+        config = options.config,
+        generationCompleteCallback = options.generationCompleteCallback;
 
     /**
      * used for tracking code generations
@@ -50,14 +52,18 @@ var CodeGenerator = function(options) {
      * @param callback - the individual file process callback
      */
     this.processFile = function(file, processCompleteCallback) {
-
-        var readCompleteCallback = function(err, results) {
+        var readCompleteCallback = function(err, data) {
             if (err) return processCompleteCallback( err );
 
-            // TODO run it through the template process
+            // TODO compile it with dash.template
+            var builder = dash.template( data.toString() );
 
-            processCompleteCallback( err, results );
+            var text = builder( { config:config } );
+
+            processCompleteCallback( err, text );
         };
+
+        fs.readFile(file, readCompleteCallback);
     };
 
     /**
@@ -67,7 +73,8 @@ var CodeGenerator = function(options) {
      * @param templateFiles - list of all the template files
      * @param completeCallback - where to send the results
      */
-    this.generateCode = function(config, templateFiles, completeCallback) {
+    this.generateCode = function(conf, templateFiles, completeCallback) {
+        config = conf;
         config.fileList = templateFiles;
 
         // set the instance varible to enable callback from any point
@@ -76,8 +83,6 @@ var CodeGenerator = function(options) {
         completeCallback( null, config );
 
     };
-
-
 
     // constructor validations
     if (!log) throw new Error("delegate must be constructed with a log");

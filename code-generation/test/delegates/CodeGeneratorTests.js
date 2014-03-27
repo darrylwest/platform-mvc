@@ -84,4 +84,27 @@ describe('CodeGenerator', function() {
             generator.generateCode( config, files, callback );
         });
     });
+
+    describe('processFile', function() {
+        var options = createOptions(),
+            delegate;
+
+        // set the config...
+        
+        it('should process a known template file and return the results', function(done) {
+            var callback = function(err, text) {
+                should.not.exist( err );
+
+                console.log( text );
+                should.exist( text );
+
+                done();
+            };
+
+            // TODO replace this with a known fixure file...
+            var file = '/Users/dpw/roundpeg/platform-mvc/templates/node-server-standard/package.json';
+
+            delegate.processFile( file, callback );
+        });
+    });
 });
