@@ -1,6 +1,10 @@
 /**
  * @class CodeGenerator
- * @classdesc
+ * @classdesc CodeGenerator uses a formal closure pattern to enable use of multiple method
+ * that have access to private variables.  The code generator provides a 'createInstance'
+ * method to create a separate and distinct instance that has access to the generation
+ * configuration (config) and the callback.  The instance also has the ability to read and
+ * process multiple files and generate results that are hidden from other generation processes.
  *
  * @author: darryl.west@raincitysoftware.com
  * @created: 3/26/14
