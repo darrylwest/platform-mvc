@@ -2,8 +2,6 @@
  * @class FileWalker
  * @classdesc given a start folder, walk the entire tree and return all regular files
  *
- * TODO: replace with evented findit module
- *
  * @author: darryl.west@raincitysoftware.com
  * @created: 3/24/14 3:48 PM
  */

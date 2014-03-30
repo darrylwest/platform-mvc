@@ -57,12 +57,30 @@ var CodeGenerator = function(options) {
      */
     this.processFile = function(file, processCompleteCallback) {
         var readCompleteCallback = function(err, data) {
+            var text,
+                builder;
+
             if (err) return processCompleteCallback( err );
 
-            // TODO compile it with dash.template
-            var builder = dash.template( data.toString() );
+            log.info( file );
 
-            var text = builder( { config:config } );
+            try {
+                builder = dash.template( data.toString() );
+                text = builder( { config:config } );
+
+                // TODO now convert <!% and %!> to <% and %>
+                if (text.indexOf('<!%') > 0) {
+                    text = text.replace( /<!%/g, '<%');
+                    text = text.replace( /%!>/g, '%>');
+
+                    log.info( text );
+                }
+
+                log.debug( text );
+            } catch (e) {
+                err = e;
+                log.error( e );
+            }
 
             processCompleteCallback( err, text );
         };
@@ -84,8 +102,12 @@ var CodeGenerator = function(options) {
         // set the instance varible to enable callback from any point
         generationCompleteCallback = completeCallback;
 
-        completeCallback( null, config );
+        // TODO this should be a public method that writes the output archive file
+        var loopCompleteCallback = function(err) {
+            generationCompleteCallback( err, config );
+        };
 
+        async.eachLimit( templateFiles, 6, delegate.processFile, loopCompleteCallback );
     };
 
     // constructor validations

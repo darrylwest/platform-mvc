@@ -33,7 +33,7 @@ describe('CodeDataService', function() {
         var service = new CodeDataService( createOptions() ),
             methods = [
                 'generateCode',
-                'verifyTemplate',
+                'parseConfig',
                 // inherited
                 'getPooledConnection',
                 'parseInt'
@@ -42,6 +42,14 @@ describe('CodeDataService', function() {
         it('should be an instance of CodeDataService', function() {
             should.exist( service );
             service.should.be.instanceof( CodeDataService );
+        });
+
+        it('should have all known methods by size and name', function() {
+            // console.log( dash.methods( service ));
+            dash.methods( service ).length.should.equal( methods.length );
+            methods.forEach(function(method) {
+                service[ method ].should.be.a( 'function' );
+            });
         });
     });
 });

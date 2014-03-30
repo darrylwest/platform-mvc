@@ -51,7 +51,6 @@ var ConfigurationDataset = function() {
 
         return config;
     };
-
 };
 
 module.exports = ConfigurationDataset;

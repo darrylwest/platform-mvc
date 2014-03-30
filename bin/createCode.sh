@@ -10,7 +10,9 @@ config='{
     "projectName":"todo-list",
     "serviceName":"TodoListService",
     "dateCreated":"now",
-    "author":"kerry.coder@coders.com"
+    "dateFormat":"DD-MMM-YYYY hh:mm a",
+    "authorName":"kerry.coder@coders.com",
+    "copyright":"(c) YYYY RainCitySoftware.com"
 }'
 
 curl -d "config=$config" "$HOST/code/create"
