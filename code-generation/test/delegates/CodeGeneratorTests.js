@@ -43,8 +43,12 @@ describe('CodeGenerator', function() {
             generator.should.be.instanceof( CodeGenerator );
         });
 
-        it('should have all expected methods by size', function() {
+        it('should have all expected methods by size and name', function() {
             dash.methods( generator ).length.should.equal( methods.length );
+
+            methods.forEach(function(method) {
+                generator[ method ].should.be.a( 'function' );
+            });
         });
     });
 
