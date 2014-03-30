@@ -5,7 +5,8 @@
  * @author: darryl.west@roundpeg.com
  * @created: 3/30/14
  */
-var casual = require('casual');
+var casual = require('casual'),
+    moment = require('moment');
 
 /* jshint -W106 */ // ignore required for casual underscores
 
@@ -15,15 +16,24 @@ var casual = require('casual');
 var CodeGeneratorDataset = function() {
     'use strict';
 
+    var dataset = this;
+
+    this.getKnownTemplate = function() {
+        return 'node-server-standard';
+    };
+
     this.createValidCodeConfig = function() {
         var config = {};
 
-        config.template = 'node-server-standard';
-        config.projectName = casual.title.replace(/ /g, '-').toLowerCase;
+        config.template = dataset.getKnownTemplate();
+
+        config.projectName = casual.title.replace(/ /g, '-').toLowerCase();
         config.serviceName = casual.title.replace(/ /g, '') + 'Service';
-        config.dateCreated = 'now';
+
         config.dateFormat = 'YYYY-MM-DD HH:mm';
-        config.author = casual.email;
+        config.dateCreated = new moment().format( config.dateFormat );
+
+        config.authorName = casual.email;
         config.copyright = '(c) YYYY ' + casual.company_name;
 
         return config;

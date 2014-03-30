@@ -98,14 +98,24 @@ describe('CodeGenerator', function() {
             var callback = function(err, text) {
                 should.not.exist( err );
 
-                console.log( text );
+                // console.log( text );
                 should.exist( text );
+
+                var keys = [
+                    options.config.projectName,
+                    options.config.dateCreated,
+                    options.config.authorName
+                ];
+
+                keys.forEach( function( key ) {
+                    // console.log( key );
+                    text.indexOf( key ).should.be.above( 1 );
+                });
 
                 done();
             };
 
-            // TODO replace this with a known fixture file...
-            var file = '/Users/dpw/roundpeg/platform-mvc/templates/node-server-standard/Gruntfile.js';
+            var file = options.templateFolder + '/node-server-standard/Gruntfile.js';
 
             delegate.processFile( file, callback );
         });
