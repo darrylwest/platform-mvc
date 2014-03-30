@@ -112,6 +112,10 @@ describe('CodeGenerator', function() {
                     text.indexOf( key ).should.be.above( 1 );
                 });
 
+                // test the post process
+                text.indexOf( '<%' ).should.be.above( 1 );
+                text.indexOf( '%>' ).should.be.above( 1 );
+
                 done();
             };
 

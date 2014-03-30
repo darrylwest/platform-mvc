@@ -6,6 +6,7 @@
  */
 var should = require('chai').should(),
     dash = require('lodash' ),
+    Dataset = require('../fixtures/CodeGeneratorDataset'),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
     Config = require('../../app/controllers/Config' ),
@@ -17,6 +18,7 @@ describe('CodeDataService', function() {
     'use strict';
 
     var logManager = new MockLogManager(),
+        dataset = new Dataset(),
         createOptions;
 
     createOptions = function() {
@@ -54,7 +56,28 @@ describe('CodeDataService', function() {
     });
 
     describe('parseConfig', function() {
-        it('should parse the valid config file with correct settings');
+        var service = new CodeDataService( createOptions()),
+            keys = [
+                'projectName',
+                'serviceName',
+                'dateFormat',
+                'dateCreated',
+                'authorName',
+                'copyright'
+            ];
+
+        it('should parse the valid config file with correct settings', function() {
+            var original = dataset.createValidCodeConfig(),
+                json = JSON.stringify( original ),
+                config = service.parseConfig( json );
+
+            keys.forEach(function(key) {
+                config[ key ].should.equal( original[ key ] );
+            });
+
+            config.targetFile.should.equal( original.projectName + '.tar.gz' );
+        });
+
         it('should parse a partial config file and supply default settings');
         it('should error if config file is not valid');
     });
