@@ -30,13 +30,12 @@ var CodeDataService = function(options) {
     this.generateCode = function(params, responseCallback) {
         log.info('create the code from params: ', params);
 
-        var config = service.parseConfig( params.config ),
-            targetFile = config.targetFile;
+        var config = service.parseConfig( params.config );
 
         var generationCompleteCallback = function(err, results) {
+            // TODO write the archive?
 
-
-            responseCallback(null, results);
+            responseCallback(err, results);
         };
 
         var templateFilesCallback = function(err, files) {
@@ -60,8 +59,13 @@ var CodeDataService = function(options) {
         var config = JSON.parse( json );
 
         // set the defaults
+        if (!config.projectName) {
+            config.projectName = 'test-project';
+            log.warn('set the project name: ', config.projectName);
+        }
+
         if (!config.targetFile) {
-            config.targetFile = 'output.tar.gz';
+            config.targetFile = config.projectName + '.tar.gz';
             log.info('set the default target output file: ', config.targetFile);
         }
 

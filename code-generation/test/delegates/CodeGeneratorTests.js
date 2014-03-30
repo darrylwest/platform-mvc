@@ -6,7 +6,7 @@
  */
 var should = require('chai').should(),
     dash = require('lodash' ),
-    Dataset = require('../fixtures/ConfigurationDataset'),
+    Dataset = require('../fixtures/CodeGeneratorDataset'),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
     Config = require('../../app/controllers/Config' ),
@@ -69,7 +69,7 @@ describe('CodeGenerator', function() {
         var delegate = new CodeGenerator( createOptions() );
 
         it('should simply return when file list is empty', function(done) {
-            var config = dataset.createCodeConfig(),
+            var config = dataset.createValidCodeConfig(),
                 generator = delegate.createInstance(),
                 files = [],
                 callback;
@@ -92,7 +92,7 @@ describe('CodeGenerator', function() {
         // set the config...
 
         it('should process a known template file and return the results', function(done) {
-            options.config = dataset.createCodeConfig();
+            options.config = dataset.createValidCodeConfig();
             delegate = new CodeGenerator( options );
 
             var callback = function(err, text) {
@@ -104,8 +104,8 @@ describe('CodeGenerator', function() {
                 done();
             };
 
-            // TODO replace this with a known fixure file...
-            var file = '/Users/dpw/roundpeg/platform-mvc/templates/node-server-standard/package.json';
+            // TODO replace this with a known fixture file...
+            var file = '/Users/dpw/roundpeg/platform-mvc/templates/node-server-standard/Gruntfile.js';
 
             delegate.processFile( file, callback );
         });

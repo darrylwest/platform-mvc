@@ -52,4 +52,10 @@ describe('CodeDataService', function() {
             });
         });
     });
+
+    describe('parseConfig', function() {
+        it('should parse the valid config file with correct settings');
+        it('should parse a partial config file and supply default settings');
+        it('should error if config file is not valid');
+    });
 });

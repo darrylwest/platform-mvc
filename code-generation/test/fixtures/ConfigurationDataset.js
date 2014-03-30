@@ -40,17 +40,6 @@ var ConfigurationDataset = function() {
 
         return configuration;
     };
-
-    this.createCodeConfig = function() {
-        var config = {};
-
-        config.projectName = 'Test Project';
-        config.serviceName = 'TestService';
-        config.dateCreated = new Date();
-        config.author = 'dpw@rcs.com';
-
-        return config;
-    };
 };
 
 module.exports = ConfigurationDataset;
