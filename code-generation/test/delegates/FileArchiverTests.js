@@ -5,6 +5,7 @@
  */
 var should = require('chai').should(),
     dash = require('lodash' ),
+    fs = require('fs'),
     Dataset = require('../fixtures/CodeGeneratorDataset'),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     Config = require('../../app/controllers/Config' ),
@@ -28,7 +29,8 @@ describe('FileArchiver', function() {
     describe('#instance', function() {
         var archiver = new FileArchiver( createOptions()),
             methods = [
-                'createArchive'
+                'createArchive',
+                'errorHandler'
             ];
 
         it('should create an instance of FileArchiver', function() {
@@ -42,6 +44,43 @@ describe('FileArchiver', function() {
             methods.forEach(function(method) {
                 archiver[ method ].should.be.a('function');
             });
+        });
+    });
+
+    describe('createArchive', function() {
+        var file = [ '/tmp/archive-', Date.now(), '-test.tar.gz' ].join(''),
+            archiver = new FileArchiver( createOptions() );
+
+        after(function() {
+            // console.log('remove file: ', file);
+            fs.unlink( file );
+        });
+
+        it('should create an archive for the given file', function(done) {
+            var statsCallback,
+                closeCallback,
+                archive;
+
+            statsCallback = function(err, stats) {
+                should.not.exist( err );
+                should.exist( stats );
+
+                // console.log( stats );
+                stats.size.should.be.above( 130 );
+
+                done();
+            };
+
+            closeCallback = function() {
+                fs.stat( file, statsCallback );
+            };
+
+            archive = archiver.createArchive( file, closeCallback );
+
+            should.exist( archive );
+            archive.append('this is a test', { name:'test-string.txt' });
+            archive.finalize();
+
         });
     });
 });
