@@ -23,11 +23,8 @@ var CodeGeneratorDataset = function() {
     };
 
     this.createValidCodeConfig = function() {
-        var config = {};
+        var config = dataset.createPartialCodeConfig();
 
-        config.template = dataset.getKnownTemplate();
-
-        config.projectName = casual.title.replace(/ /g, '-').toLowerCase();
         config.serviceName = casual.title.replace(/ /g, '') + 'Service';
 
         config.dateFormat = 'YYYY-MM-DD HH:mm';
@@ -36,9 +33,19 @@ var CodeGeneratorDataset = function() {
         config.authorName = casual.email;
         config.copyright = '(c) YYYY ' + casual.company_name;
 
+        config.targetFile = 'my-output-file.tar.gz';
+
         return config;
     };
 
+    this.createPartialCodeConfig = function() {
+        var config = {};
+
+        config.template = dataset.getKnownTemplate();
+        config.projectName = casual.title.replace(/ /g, '-').toLowerCase();
+
+        return config;
+    };
 };
 
 module.exports = CodeGeneratorDataset;

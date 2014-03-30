@@ -63,7 +63,8 @@ describe('CodeDataService', function() {
                 'dateFormat',
                 'dateCreated',
                 'authorName',
-                'copyright'
+                'copyright',
+                'targetFile'
             ];
 
         it('should parse the valid config file with correct settings', function() {
@@ -75,10 +76,18 @@ describe('CodeDataService', function() {
                 config[ key ].should.equal( original[ key ] );
             });
 
-            config.targetFile.should.equal( original.projectName + '.tar.gz' );
         });
 
-        it('should parse a partial config file and supply default settings');
+        it('should parse a partial config file and supply default settings', function() {
+            var original = dataset.createPartialCodeConfig(),
+                json = JSON.stringify( original ),
+                config = service.parseConfig( json );
+
+            keys.forEach(function(key) {
+                // config[ key ].should.equal( original[ key ] );
+            });
+        });
+
         it('should error if config file is not valid');
     });
 });
