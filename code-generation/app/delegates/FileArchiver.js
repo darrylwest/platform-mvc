@@ -53,7 +53,7 @@ var FileArchiver = function(options) {
         if (errorHandler && typeof errorHandler === 'function') {
             archive.on('error', errorHandler);
         } else {
-            archive.on('err', delegate.errorHandler);
+            archive.on('error', delegate.errorHandler);
         }
 
         return archive;

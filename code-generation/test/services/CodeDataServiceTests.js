@@ -11,6 +11,7 @@ var should = require('chai').should(),
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
     Config = require('../../app/controllers/Config' ),
     FileWalker = require('../../app/delegates/FileWalker'),
+    MockFileArchiver = require('../mocks/MockFileArchiver'),
     CodeGenerator = require('../../app/delegates/CodeGenerator'),
     CodeDataService = require('../../app/services/CodeDataService');
 
@@ -26,6 +27,7 @@ describe('CodeDataService', function() {
 
         opts.log = logManager.createLogger('CodeDataService');
         opts.fileWalker = new FileWalker( opts );
+        opts.fileArchiver = new MockFileArchiver( opts );
         opts.codeGenerator = new CodeGenerator( opts );
 
         return opts;

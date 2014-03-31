@@ -92,7 +92,7 @@ var CodeGenerator = function(options) {
                 config.fileList.push( filename );
 
                 if (tar) {
-                    tar.append( text, { name:filename } );
+                    tar.append( text, { name:config.projectName + '/' + filename } );
                 }
             } catch (e) {
                 err = e;

@@ -9,8 +9,8 @@ var should = require('chai').should(),
     Dataset = require('../fixtures/CodeGeneratorDataset'),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
+    MockFileArchiver = require('../mocks/MockFileArchiver'),
     Config = require('../../app/controllers/Config' ),
-    FileWalker = require('../../app/delegates/FileWalker'),
     CodeGenerator = require('../../app/delegates/CodeGenerator');
 
 describe('CodeGenerator', function() {
@@ -24,7 +24,7 @@ describe('CodeGenerator', function() {
         var opts = Config.test();
 
         opts.log = logManager.createLogger('CodeGenerator');
-        opts.fileWalker = new FileWalker( opts );
+        opts.fileArchiver = new MockFileArchiver( opts );
 
         return opts;
     };

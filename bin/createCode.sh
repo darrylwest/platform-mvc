@@ -12,7 +12,8 @@ config='{
     "dateCreated":"now",
     "dateFormat":"DD-MMM-YYYY hh:mm a",
     "authorName":"kerry.coder@coders.com",
-    "copyright":"(c) YYYY RainCitySoftware.com"
+    "copyright":"(c) YYYY RainCitySoftware.com",
+    "databaseName":"TodoList",
 }'
 
 curl -d "config=$config" "$HOST/code/create"
