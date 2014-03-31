@@ -19,7 +19,7 @@ config='{
     "logName":"todo-list.log",
     "initialVersion":"00.90.000-1000",
     "port":39102,
-    "appkey":"80dca131-97e6-411d-82bb-9a17f5f74c52"
+    "appkey":"80dca131-97e6-411d-82bb-9a17f5f74c52",
     "appItemKey":"todoList"
 }'
 
