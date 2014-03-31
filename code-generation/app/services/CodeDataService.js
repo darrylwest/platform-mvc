@@ -34,7 +34,8 @@ var CodeDataService = function(options) {
 
         var generationCompleteCallback = function(err, results) {
             log.info('code generation complete: ', (err ? 'has errors' : 'no errors...'));
-            // TODO copy the archive to a public destination?
+
+            // TODO run the post-process hook, if it exists;
 
             responseCallback(err, results);
         };

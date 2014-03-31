@@ -33,7 +33,9 @@ var FileWalker = function(options) {
 
             var finder = walker.createFinder( start );
 
-            finder.on('file', function(file, stat) {
+            finder.on('file', function(file, stats) {
+                // TODO create a file object as a combination of stats and file name
+                // then push the custom stats to files
                 files.push( file );
             });
 

@@ -73,7 +73,7 @@ var CodeGenerator = function(options) {
                 builder = dash.template( data.toString() );
                 text = builder( { config:config } );
 
-                // TODO now convert <!% and %!> to <% and %>
+                // TODO determine a better post-process hook
                 if (text.indexOf('<!%') > 0) {
                     text = text.replace( /<!%/g, '<%');
                     text = text.replace( /%!>/g, '%>');
@@ -91,6 +91,7 @@ var CodeGenerator = function(options) {
                 config.fileList.push( filename );
 
                 if (tar) {
+                    // TODO use the original files's stats/mode to eliminate guessing
                     if (filename.indexOf('bin') === 0) {
                         filemode = 33261;
                     }
