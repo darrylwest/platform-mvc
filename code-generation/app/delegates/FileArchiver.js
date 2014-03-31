@@ -37,7 +37,7 @@ var FileArchiver = function(options) {
     this.createArchive = function(filepath, closeHandler, errorHandler) {
         if (!filepath) throw new Error('createArchive requires a valid output file path');
         if (!closeHandler) throw new Error('createArchive requires a close callback function');
-        
+
         log.info('create the tar gz archive for file: ', filepath);
 
         var archive = archiver('tar'),

@@ -12,6 +12,7 @@
 var dash = require('lodash'),
     uuid = require('node-uuid'),
     fs = require('fs'),
+    path = require('path'),
     async = require('async');
 
 /**
@@ -23,7 +24,9 @@ var CodeGenerator = function(options) {
 
     var delegate = this,
         log = options.log,
-        fileWalker = options.fileWalker,
+        targetFolder = options.targetFolder,
+        archiver = options.fileArchiver,
+        tar,
         id = uuid.v4(),
         config = options.config,
         generationCompleteCallback = options.generationCompleteCallback;
@@ -55,14 +58,15 @@ var CodeGenerator = function(options) {
      * @param file - the full path to the template file
      * @param callback - the individual file process callback
      */
-    this.processFile = function(file, processCompleteCallback) {
+    this.processFile = function(templateFile, processCompleteCallback) {
         var readCompleteCallback = function(err, data) {
             var text,
-                builder;
+                builder,
+                filename;
 
             if (err) return processCompleteCallback( err );
 
-            log.info( file );
+            log.info( templateFile );
 
             try {
                 builder = dash.template( data.toString() );
@@ -77,6 +81,19 @@ var CodeGenerator = function(options) {
                 }
 
                 log.debug( text );
+
+                // pull the file name from template file
+                filename = templateFile.split( config.template )[1].substr(1);
+
+                if (!config.fileList) {
+                    config.fileList = [];
+                }
+
+                config.fileList.push( filename );
+
+                if (tar) {
+                    tar.append( text, { name:filename } );
+                }
             } catch (e) {
                 err = e;
                 log.error( e );
@@ -85,7 +102,7 @@ var CodeGenerator = function(options) {
             processCompleteCallback( err, text );
         };
 
-        fs.readFile(file, readCompleteCallback);
+        fs.readFile(templateFile, readCompleteCallback);
     };
 
     /**
@@ -97,14 +114,28 @@ var CodeGenerator = function(options) {
      */
     this.generateCode = function(conf, templateFiles, completeCallback) {
         config = conf;
-        config.fileList = templateFiles;
+        if (!config.fileList) {
+            config.fileList = [];
+        }
+
+        if (archiver && !tar && conf.targetFile) {
+            config.tarfile = path.join( targetFolder, conf.targetFile );
+            tar = archiver.createArchive( config.tarfile, function() {
+                log.info('archive closed');
+                generationCompleteCallback( null, config );
+            });
+        }
 
         // set the instance varible to enable callback from any point
         generationCompleteCallback = completeCallback;
 
         // TODO this should be a public method that writes the output archive file
         var loopCompleteCallback = function(err) {
-            generationCompleteCallback( err, config );
+            if (tar) {
+                tar.finalize();
+            } else {
+                generationCompleteCallback( err, config );
+            }
         };
 
         async.eachLimit( templateFiles, 6, delegate.processFile, loopCompleteCallback );
@@ -112,6 +143,8 @@ var CodeGenerator = function(options) {
 
     // constructor validations
     if (!log) throw new Error("delegate must be constructed with a log");
+    if (!archiver) throw new Error("delegate must be constructed with a file archiver");
+    if (!targetFolder) throw new Error('delegate must be constructed with a target folder');
 };
 
 module.exports = CodeGenerator;

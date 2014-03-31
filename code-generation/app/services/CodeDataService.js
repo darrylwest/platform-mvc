@@ -8,7 +8,7 @@
 var serviceName = 'CodeDataService',
     AbstractDataService = require('node-commons' ).services.AbstractDataService,
     moment = require('moment'),
-    path = require('path' );
+    path = require('path');
 
 var CodeDataService = function(options) {
     'use strict';
@@ -33,7 +33,8 @@ var CodeDataService = function(options) {
         var config = service.parseConfig( params.config );
 
         var generationCompleteCallback = function(err, results) {
-            // TODO write the archive?
+            log.info('code generation complete: ', (err ? 'has errors' : 'no errors...'));
+            // TODO copy the archive to a public destination?
 
             responseCallback(err, results);
         };

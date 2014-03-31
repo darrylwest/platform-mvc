@@ -15,6 +15,7 @@ var services = '../../app/services',
     CodeWebService = require( services + '/CodeWebService' ),
     CodeDataService = require( services + '/CodeDataService' ),
     FileWalker = require( delegates + '/FileWalker' ),
+    FileArchiver = require( delegates + '/FileArchiver' ),
     CodeGenerator = require( delegates + '/CodeGenerator'),
     dash = require('lodash');
 
@@ -33,27 +34,42 @@ var ServiceFactory = function(options) {
         configurationDao = options.configurationDao,
         codeDataService = options.codeDataService,
         codeGenerator = options.codeGenerator,
-        walker = options.fileWalker;
+        fileArchiver = options.fileArchiver,
+        fileWalker = options.fileWalker;
 
-    this.createFileWalker = function() {
-        if (!walker) {
-            log.info('create file walker');
+    this.createFileArchiver = function() {
+        if (!fileArchiver) {
+            log.info('create the file archiver');
 
-            var opts = {};
-            opts.log = logManager.createLogger('FileWalker');
+            var opts = dash.clone( options );
+            opts.log = logManager.createLogger('FileArchiver');
 
-            walker = new FileWalker( opts );
+            fileArchiver = new FileArchiver( opts );
         }
 
-        return walker;
+        return fileArchiver;
+    };
+
+    this.createFileWalker = function() {
+        if (!fileWalker) {
+            log.info('create file walker');
+
+            var opts = dash.clone( options );
+            opts.log = logManager.createLogger('FileWalker');
+
+            fileWalker = new FileWalker( opts );
+        }
+
+        return fileWalker;
     };
 
     this.createCodeGenerator = function() {
         if (!codeGenerator) {
             log.info('create code generator');
 
-            var opts = {};
+            var opts = dash.clone( options );
             opts.log = logManager.createLogger('CodeGenerator');
+            opts.fileArchiver = factory.createFileArchiver();
 
             codeGenerator = new CodeGenerator( opts );
         }

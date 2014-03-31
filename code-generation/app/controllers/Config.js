@@ -49,6 +49,7 @@ var Config = function(options) {
     this.database = externalConfig.database;
 
     this.templateFolder = path.join( __dirname, '/../../../templates' );
+    this.targetFolder = path.join( __dirname, '/../../../build' );
 };
 
 Config.development = function(opts) {
