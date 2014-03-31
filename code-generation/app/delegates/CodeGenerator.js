@@ -62,7 +62,8 @@ var CodeGenerator = function(options) {
         var readCompleteCallback = function(err, data) {
             var text,
                 builder,
-                filename;
+                filename,
+                filemode = 33188; // 0644
 
             if (err) return processCompleteCallback( err );
 
@@ -90,7 +91,14 @@ var CodeGenerator = function(options) {
                 config.fileList.push( filename );
 
                 if (tar) {
-                    tar.append( text, { name:config.projectName + '/' + filename } );
+                    if (filename.indexOf('bin') === 0) {
+                        filemode = 33261;
+                    }
+
+                    tar.append( text, {
+                        name:config.projectName + '/' + filename,
+                        mode:filemode
+                    } );
                 }
             } catch (e) {
                 err = e;
@@ -116,7 +124,7 @@ var CodeGenerator = function(options) {
             config.fileList = [];
         }
 
-        if (archiver && !tar && conf.targetFile) {
+        if (archiver && conf.targetFile) {
             config.tarfile = path.join( targetFolder, conf.targetFile );
             tar = archiver.createArchive( config.tarfile, function() {
                 log.info('archive closed, file: ', config.tarfile );
@@ -131,12 +139,15 @@ var CodeGenerator = function(options) {
         var loopCompleteCallback = function(err) {
             if (tar) {
                 tar.finalize();
+                process.nextTick(function() {
+                    tar = null;
+                });
             } else {
                 generationCompleteCallback( err, config );
             }
         };
 
-        async.eachLimit( templateFiles, 2, delegate.processFile, loopCompleteCallback );
+        async.eachLimit( templateFiles, 6, delegate.processFile, loopCompleteCallback );
     };
 
     // constructor validations

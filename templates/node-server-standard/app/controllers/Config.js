@@ -29,7 +29,7 @@ var Config = function(options) {
     // set the command line arg/defaults
     this.environment = options.env;
 
-    this.appkey = '<%= config.appkey %>
+    this.appkey = '<%= config.appkey %>';
 
     // log settings
     this.consoleLogLevel = options.consoleLogLevel || 'info';

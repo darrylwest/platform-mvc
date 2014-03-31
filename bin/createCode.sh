@@ -13,7 +13,7 @@ config='{
     "dateCreated":"now",
     "dateFormat":"DD-MMM-YYYY hh:mm a",
     "authorName":"kerry.coder@coders.com",
-    "copyright":"(c) YYYY RainCitySoftware.com",
+    "copyright":"(c) 2014 RainCitySoftware.com",
     "databaseName":"todo_development",
     "projectDescription":"Standard MVC Todo List to compare to other MVC frameworks...",
     "logName":"todo-list.log",
