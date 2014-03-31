@@ -2,7 +2,7 @@
  * @class ConfigurationDao
  * @classdesc extends AbstractBaseDao to enable list, query, insert, update, etc
  *
- * @author: darryl.west@raincitysoftware.com
+ * @author: <%= config.authorName %>
  * @created: <%= config.dateCreated %>
  */
 var AbstractBaseDao = require( "node-commons" ).dao.AbstractBaseDao;

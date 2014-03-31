@@ -6,7 +6,8 @@
  * @created: 3/30/14
  */
 var casual = require('casual'),
-    moment = require('moment');
+    moment = require('moment'),
+    uuid = require('node-uuid');
 
 /* jshint -W106 */ // ignore required for casual underscores
 
@@ -37,6 +38,9 @@ var CodeGeneratorDataset = function() {
 
         config.initialVersion = '09.01.000';
         config.projectDescription = casual.sentence;
+
+        config.appkey = uuid.v4();
+        config.port = 12345;
 
         return config;
     };

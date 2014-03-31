@@ -2,7 +2,7 @@
  * @class ServiceFactory
  * @classdesc create all services and their dependencies
  *
- * @author: darryl.west@raincitysoftware.com
+ * @author: <%= config.authorName %>
  * @created: <%= config.dateCreated %>
  */
 var services = '../../app/services',

@@ -2,7 +2,7 @@
  * @class Configuration
  * @classdesc data model to contain a configuration setting
  *
- * @author: darryl.west@raincitysoftware.com
+ * @author: <%= config.authorName %>
  * @created: <%= config.dateCreated %>
  */
 var AbstractBaseModel = require("node-commons" ).models.AbstractBaseModel;

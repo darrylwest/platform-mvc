@@ -6,7 +6,7 @@ ENV=production
 
 PORT=<%= config.port %>
 SERVICE=<%= config.serviceName %>
-CONFIG=config.json
+CONFIG=`pwd`/config.json
 LOGNAME="<%= config.logName %>"
 
 # config?

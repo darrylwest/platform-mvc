@@ -2,7 +2,7 @@
  * @class ConfigurationDaoTests
  * @classdef test configurations for various environments
  *
- * @author: darryl.west@raincitysoftware.com
+ * @author: <%= config.authorName %>
  * @created: <%= config.dateCreated %>
  */
 var should = require('chai').should(),
@@ -91,7 +91,7 @@ describe('ConfigurationDao', function() {
 
                 model.id.should.equal( configuration.id );
 
-                console.log( 'cache size: ', cache.size() );
+                // console.log( 'cache size: ', cache.size() );
                 cache.size().should.equal( count + 1 );
 
                 done();
