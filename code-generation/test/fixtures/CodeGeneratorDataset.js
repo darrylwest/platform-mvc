@@ -35,6 +35,9 @@ var CodeGeneratorDataset = function() {
 
         config.targetFile = 'my-output-file.tar.gz';
 
+        config.initialVersion = '09.01.000';
+        config.projectDescription = casual.sentence;
+
         return config;
     };
 

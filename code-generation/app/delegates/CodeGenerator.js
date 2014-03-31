@@ -76,8 +76,6 @@ var CodeGenerator = function(options) {
                 if (text.indexOf('<!%') > 0) {
                     text = text.replace( /<!%/g, '<%');
                     text = text.replace( /%!>/g, '%>');
-
-                    log.info( text );
                 }
 
                 log.debug( text );
@@ -121,7 +119,7 @@ var CodeGenerator = function(options) {
         if (archiver && !tar && conf.targetFile) {
             config.tarfile = path.join( targetFolder, conf.targetFile );
             tar = archiver.createArchive( config.tarfile, function() {
-                log.info('archive closed');
+                log.info('archive closed, file: ', config.tarfile );
                 generationCompleteCallback( null, config );
             });
         }
@@ -138,7 +136,7 @@ var CodeGenerator = function(options) {
             }
         };
 
-        async.eachLimit( templateFiles, 6, delegate.processFile, loopCompleteCallback );
+        async.eachLimit( templateFiles, 2, delegate.processFile, loopCompleteCallback );
     };
 
     // constructor validations

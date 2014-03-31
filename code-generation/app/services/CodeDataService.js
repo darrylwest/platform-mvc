@@ -80,6 +80,11 @@ var CodeDataService = function(options) {
             log.info('set and format date created: ', config.dateCreated);
         }
 
+        if (!config.initialVersion) {
+            config.initialVersion = '0.0.0';
+            log.info('set the default initial version: ', config.initialVersion);
+        }
+
         return config;
     };
 
