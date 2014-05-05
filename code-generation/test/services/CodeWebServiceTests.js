@@ -11,6 +11,7 @@ var should = require('chai').should(),
     CodeDataService = require('../../app/services/CodeDataService' ),
     Config = require('../../app/controllers/Config' ),
     FileWalker = require('../../app/delegates/FileWalker'),
+    MockFileArchiver = require('../mocks/MockFileArchiver'),
     CodeGenerator = require('../../app/delegates/CodeGenerator'),
     CodeWebService = require('../../app/services/CodeWebService');
 
@@ -26,6 +27,8 @@ describe('CodeWebService', function() {
 
         opts.log = logManager.createLogger('CodeDataService');
         opts.fileWalker = new FileWalker( opts );
+        opts.fileArchiver = new MockFileArchiver( opts );
+
         opts.codeGenerator = new CodeGenerator( opts );
 
         return new CodeDataService( opts );

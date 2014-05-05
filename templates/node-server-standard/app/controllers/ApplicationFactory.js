@@ -2,7 +2,7 @@
  * @class ApplicationFactory
  * @classdesc builds, or delegates building of all application components
  *
- * @author: darryl.west@raincitysoftware.com
+ * @author: <%= config.authorName %>
  * @created: <%= config.dateCreated %>
  */
 

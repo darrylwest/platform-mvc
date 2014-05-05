@@ -21,13 +21,16 @@
     "maxdepth": 3,
     "quotmark": false,
     "unused": false,
-    "maxstatements": 24,
+    "maxstatements": 20,
     "maxcomplexity": 10,
     "white": false,
     "curly": false,
     "globals": {
         "describe":true,
         "it":true,
-        "beforeEach":true
+        "beforeEach":true,
+        "before":true,
+        "after":true,
+        "afterEach":true
     }
 }

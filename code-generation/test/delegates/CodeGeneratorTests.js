@@ -6,11 +6,11 @@
  */
 var should = require('chai').should(),
     dash = require('lodash' ),
-    Dataset = require('../fixtures/ConfigurationDataset'),
+    Dataset = require('../fixtures/CodeGeneratorDataset'),
     MockLogManager = require('node-commons' ).mocks.MockLogManager,
     MockDataSourceFactory = require('node-commons' ).mocks.MockDataSourceFactory,
+    MockFileArchiver = require('../mocks/MockFileArchiver'),
     Config = require('../../app/controllers/Config' ),
-    FileWalker = require('../../app/delegates/FileWalker'),
     CodeGenerator = require('../../app/delegates/CodeGenerator');
 
 describe('CodeGenerator', function() {
@@ -24,7 +24,7 @@ describe('CodeGenerator', function() {
         var opts = Config.test();
 
         opts.log = logManager.createLogger('CodeGenerator');
-        opts.fileWalker = new FileWalker( opts );
+        opts.fileArchiver = new MockFileArchiver( opts );
 
         return opts;
     };
@@ -43,8 +43,12 @@ describe('CodeGenerator', function() {
             generator.should.be.instanceof( CodeGenerator );
         });
 
-        it('should have all expected methods by size', function() {
+        it('should have all expected methods by size and name', function() {
             dash.methods( generator ).length.should.equal( methods.length );
+
+            methods.forEach(function(method) {
+                generator[ method ].should.be.a( 'function' );
+            });
         });
     });
 
@@ -69,7 +73,7 @@ describe('CodeGenerator', function() {
         var delegate = new CodeGenerator( createOptions() );
 
         it('should simply return when file list is empty', function(done) {
-            var config = dataset.createCodeConfig(),
+            var config = dataset.createValidCodeConfig(),
                 generator = delegate.createInstance(),
                 files = [],
                 callback;
@@ -92,20 +96,34 @@ describe('CodeGenerator', function() {
         // set the config...
 
         it('should process a known template file and return the results', function(done) {
-            options.config = dataset.createCodeConfig();
+            options.config = dataset.createValidCodeConfig();
             delegate = new CodeGenerator( options );
 
             var callback = function(err, text) {
                 should.not.exist( err );
 
-                console.log( text );
+                // console.log( text );
                 should.exist( text );
+
+                var keys = [
+                    options.config.projectName,
+                    options.config.dateCreated,
+                    options.config.authorName
+                ];
+
+                keys.forEach( function( key ) {
+                    // console.log( key );
+                    text.indexOf( key ).should.be.above( 1 );
+                });
+
+                // test the post process
+                text.indexOf( '<%' ).should.be.above( 1 );
+                text.indexOf( '%>' ).should.be.above( 1 );
 
                 done();
             };
 
-            // TODO replace this with a known fixure file...
-            var file = '/Users/dpw/roundpeg/platform-mvc/templates/node-server-standard/package.json';
+            var file = options.templateFolder + '/node-server-standard/Gruntfile.js';
 
             delegate.processFile( file, callback );
         });

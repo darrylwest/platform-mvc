@@ -2,10 +2,10 @@
  * @class Config
  * @classdesc start up configurations for various environments
  *
- * @author: darryl.west@raincitysoftware.com
+ * @author: <%= config.authorName %>
  * @created: <%= config.dateCreated %>
  */
-var VERSION = '00.90.001-18101';
+var VERSION = '<%= config.initialVersion %>';
 
 var externalConfig;
 
@@ -29,19 +29,19 @@ var Config = function(options) {
     // set the command line arg/defaults
     this.environment = options.env;
 
-    this.appkey = '81c0cb50-7023-438d-b001-be4748001b55';
+    this.appkey = '<%= config.appkey %>';
 
     // log settings
     this.consoleLogLevel = options.consoleLogLevel || 'info';
     this.fileLogLevel = options.fileLogLevel || 'info';
     this.logfile = options.logfile;
 
-    this.apptitle = 'MVC Code Generation';
-    this.copyright = 'Rain City Software, 2014';
+    this.apptitle = '<%= config.appTitle %>';
+    this.copyright = '<%= config.copyright %>';
 
-    this.baseURI = '/CodeGenerationService';
+    this.baseURI = '/<%= config.serviceName %>';
 
-    this.port = 14060;
+    this.port = <%= config.port %>;
 
     // db and aws keys, if supplied
     this.keys = externalConfig.keys;

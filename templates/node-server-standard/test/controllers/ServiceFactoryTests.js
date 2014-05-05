@@ -1,7 +1,7 @@
 /**
  * @class ServiceFactoryTests
  *
- * @author: darryl.west@roundpeg.com
+ * @author: <%= config.authorName %>
  * @created: <%= config.dateCreated %>
  */
 var should = require('chai').should(),

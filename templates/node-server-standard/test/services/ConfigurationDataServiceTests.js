@@ -1,7 +1,7 @@
 /**
  * @class ConfigurationDataServiceTests
  *
- * @author: darryl.west@raincitysoftware.com
+ * @author: <%= config.authorName %>
  * @created: 3/22/14 11:55 AM
  */
 var should = require('chai').should(),

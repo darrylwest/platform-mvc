@@ -2,8 +2,8 @@
  * @class ConfigurationWebService
  * @classdesc standard API for find, query, and save of configurations
  *
- * @author: darryl.west@raincitysoftware.com
- * @created: 3/22/14 11:40 AM
+ * @author: <%= config.authorName %>
+ * @created: <%= config.dateCreated %>
  */
 var serviceName = 'ConfigurationWebService',
     ServiceRoute = require('node-commons' ).models.ServiceRoute,

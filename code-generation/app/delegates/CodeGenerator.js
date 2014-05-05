@@ -1,6 +1,10 @@
 /**
  * @class CodeGenerator
- * @classdesc
+ * @classdesc CodeGenerator uses a formal closure pattern to enable use of multiple method
+ * that have access to private variables.  The code generator provides a 'createInstance'
+ * method to create a separate and distinct instance that has access to the generation
+ * configuration (config) and the callback.  The instance also has the ability to read and
+ * process multiple files and generate results that are hidden from other generation processes.
  *
  * @author: darryl.west@raincitysoftware.com
  * @created: 3/26/14
@@ -8,6 +12,7 @@
 var dash = require('lodash'),
     uuid = require('node-uuid'),
     fs = require('fs'),
+    path = require('path'),
     async = require('async');
 
 /**
@@ -19,7 +24,9 @@ var CodeGenerator = function(options) {
 
     var delegate = this,
         log = options.log,
-        fileWalker = options.fileWalker,
+        targetFolder = options.targetFolder,
+        archiver = options.fileArchiver,
+        tar,
         id = uuid.v4(),
         config = options.config,
         generationCompleteCallback = options.generationCompleteCallback;
@@ -51,19 +58,58 @@ var CodeGenerator = function(options) {
      * @param file - the full path to the template file
      * @param callback - the individual file process callback
      */
-    this.processFile = function(file, processCompleteCallback) {
+    this.processFile = function(templateFile, processCompleteCallback) {
         var readCompleteCallback = function(err, data) {
+            var text,
+                builder,
+                filename,
+                filemode = 33188; // 0644
+
             if (err) return processCompleteCallback( err );
 
-            // TODO compile it with dash.template
-            var builder = dash.template( data.toString() );
+            log.info( templateFile );
 
-            var text = builder( { config:config } );
+            try {
+                builder = dash.template( data.toString() );
+                text = builder( { config:config } );
+
+                // TODO determine a better post-process hook
+                if (text.indexOf('<!%') > 0) {
+                    text = text.replace( /<!%/g, '<%');
+                    text = text.replace( /%!>/g, '%>');
+                }
+
+                log.debug( text );
+
+                // pull the file name from template file
+                filename = templateFile.split( config.template )[1].substr(1);
+
+                if (!config.fileList) {
+                    config.fileList = [];
+                }
+
+                config.fileList.push( filename );
+
+                if (tar) {
+                    // TODO use the original files's stats/mode to eliminate guessing
+                    if (filename.indexOf('bin') === 0) {
+                        filemode = 33261;
+                    }
+
+                    tar.append( text, {
+                        name:config.projectName + '/' + filename,
+                        mode:filemode
+                    } );
+                }
+            } catch (e) {
+                err = e;
+                log.error( e );
+            }
 
             processCompleteCallback( err, text );
         };
 
-        fs.readFile(file, readCompleteCallback);
+        fs.readFile(templateFile, readCompleteCallback);
     };
 
     /**
@@ -75,17 +121,40 @@ var CodeGenerator = function(options) {
      */
     this.generateCode = function(conf, templateFiles, completeCallback) {
         config = conf;
-        config.fileList = templateFiles;
+        if (!config.fileList) {
+            config.fileList = [];
+        }
+
+        if (archiver && conf.targetFile) {
+            config.tarfile = path.join( targetFolder, conf.targetFile );
+            tar = archiver.createArchive( config.tarfile, function() {
+                log.info('archive closed, file: ', config.tarfile );
+                generationCompleteCallback( null, config );
+            });
+        }
 
         // set the instance varible to enable callback from any point
         generationCompleteCallback = completeCallback;
 
-        completeCallback( null, config );
+        // TODO this should be a public method that writes the output archive file
+        var loopCompleteCallback = function(err) {
+            if (tar) {
+                tar.finalize();
+                process.nextTick(function() {
+                    tar = null;
+                });
+            } else {
+                generationCompleteCallback( err, config );
+            }
+        };
 
+        async.eachLimit( templateFiles, 6, delegate.processFile, loopCompleteCallback );
     };
 
     // constructor validations
     if (!log) throw new Error("delegate must be constructed with a log");
+    if (!archiver) throw new Error("delegate must be constructed with a file archiver");
+    if (!targetFolder) throw new Error('delegate must be constructed with a target folder');
 };
 
 module.exports = CodeGenerator;

@@ -39,6 +39,7 @@ describe('ServiceFactory', function() {
                 'createConfigurationDataService',
                 'createConfigurationDao',
                 'createFileWalker',
+                'createFileArchiver',
                 'createCodeGenerator'
             ];
 
@@ -48,8 +49,12 @@ describe('ServiceFactory', function() {
             factory.should.be.instanceof( ServiceFactory );
         });
 
-        it('should have all expected methods by size', function() {
+        it('should have all expected methods by size and name', function() {
             dash.methods( factory ).length.should.equal( methods.length );
+
+            methods.forEach(function(method) {
+                factory[ method ].should.be.a('function');
+            });
         });
 
         it('should execute all known methods', function() {

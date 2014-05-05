@@ -2,7 +2,7 @@
  * @class ConfigurationDataService
  * @classdesc query, save, find data services to support web API
  *
- * @author: darryl.west@raincitysoftware.com
+ * @author: <%= config.authorName %>
  * @created: 3/22/14 11:54 AM
  */
 var serviceName = 'ConfigurationDataService',

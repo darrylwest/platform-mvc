@@ -5,7 +5,7 @@
  * @author: darryl.west@raincitysoftware.com
  * @created: 3/22/14 8:19 AM
  */
-var VERSION = '00.90.001-18101';
+var VERSION = '00.90.001-18103';
 
 var externalConfig,
     path = require('path');
@@ -49,6 +49,7 @@ var Config = function(options) {
     this.database = externalConfig.database;
 
     this.templateFolder = path.join( __dirname, '/../../../templates' );
+    this.targetFolder = path.join( __dirname, '/../../../build' );
 };
 
 Config.development = function(opts) {

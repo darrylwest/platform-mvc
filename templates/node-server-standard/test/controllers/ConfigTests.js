@@ -1,7 +1,7 @@
 /**
  * @class ConfigTests
  *
- * @author: darryl.west@raincitysoftware.com
+ * @author: <%= config.authorName %>
  * @created: <%= config.dateCreated %>
  */
 var should = require('chai').should(),
@@ -10,7 +10,7 @@ var should = require('chai').should(),
 describe( 'Config', function() {
     'use strict';
 
-    var port = 14060;
+    var port = <%= config.port %>;
 
     describe( '#instance', function() {
         it( 'should be instance of Config', function() {

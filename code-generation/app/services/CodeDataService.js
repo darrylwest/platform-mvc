@@ -7,7 +7,8 @@
  */
 var serviceName = 'CodeDataService',
     AbstractDataService = require('node-commons' ).services.AbstractDataService,
-    path = require('path' );
+    moment = require('moment'),
+    path = require('path');
 
 var CodeDataService = function(options) {
     'use strict';
@@ -29,13 +30,14 @@ var CodeDataService = function(options) {
     this.generateCode = function(params, responseCallback) {
         log.info('create the code from params: ', params);
 
-        var config = JSON.parse( params.config ),
-            targetFile = config.targetFile || 'output.tar.gz';
+        var config = service.parseConfig( params.config );
 
         var generationCompleteCallback = function(err, results) {
+            log.info('code generation complete: ', (err ? 'has errors' : 'no errors...'));
 
+            // TODO run the post-process hook, if it exists;
 
-            responseCallback(null, results);
+            responseCallback(err, results);
         };
 
         var templateFilesCallback = function(err, files) {
@@ -45,6 +47,46 @@ var CodeDataService = function(options) {
         };
 
         walker.findFiles( path.join( templateFolder, config.template ), templateFilesCallback );
+    };
+
+    /**
+     * parse the config json string and set the defaults
+     *
+     * @param json
+     * @returns the processed config object
+     */
+    this.parseConfig = function(json) {
+        log.info('parse and prepare the config settings');
+
+        var config = JSON.parse( json );
+
+        // set the defaults
+        if (!config.projectName) {
+            config.projectName = 'test-project';
+            log.warn('set the project name: ', config.projectName);
+        }
+
+        if (!config.targetFile) {
+            config.targetFile = config.projectName + '.tar.gz';
+            log.info('set the default target output file: ', config.targetFile);
+        }
+
+        if (!config.dateFormat) {
+            config.dateFormat = 'DD-MMM-YYYY hh:mm a';
+            log.info('set the default date format: ', config.dateFormat);
+        }
+
+        if (config.dateCreated === 'now') {
+            config.dateCreated = new moment().format( config.dateFormat );
+            log.info('set and format date created: ', config.dateCreated);
+        }
+
+        if (!config.initialVersion) {
+            config.initialVersion = '0.0.0';
+            log.info('set the default initial version: ', config.initialVersion);
+        }
+
+        return config;
     };
 
     // constructor validations

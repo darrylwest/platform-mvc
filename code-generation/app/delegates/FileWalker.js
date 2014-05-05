@@ -2,8 +2,6 @@
  * @class FileWalker
  * @classdesc given a start folder, walk the entire tree and return all regular files
  *
- * TODO: replace with evented findit module
- *
  * @author: darryl.west@raincitysoftware.com
  * @created: 3/24/14 3:48 PM
  */
@@ -35,7 +33,9 @@ var FileWalker = function(options) {
 
             var finder = walker.createFinder( start );
 
-            finder.on('file', function(file, stat) {
+            finder.on('file', function(file, stats) {
+                // TODO create a file object as a combination of stats and file name
+                // then push the custom stats to files
                 files.push( file );
             });
 
