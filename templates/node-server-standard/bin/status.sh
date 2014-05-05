@@ -7,5 +7,5 @@ PORT=<%= config.port %>
 ENV=production
 SERVICE=<%= config.serviceName %>
 
-curl http://localhost:$PORT/$SERVICE/status
+curl "http://localhost:${PORT}/${SERVICE}/status"
 

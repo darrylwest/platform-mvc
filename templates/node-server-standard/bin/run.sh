@@ -10,5 +10,5 @@ LOGNAME="<%= config.logName %>"
 
 cd app/
 
-node app.js --env $ENV --configfile $CONFIG --logfile ~/logs/$LOGNAME
+node app.js --env $ENV --configfile $CONFIG --logfile "${HOME}/logs/${LOGNAME}-dev.log"
 
